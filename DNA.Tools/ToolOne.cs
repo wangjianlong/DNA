@@ -1,6 +1,7 @@
 ﻿using DNA.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.OleDb;
 using System.Linq;
 using System.Text;
 
@@ -18,13 +19,23 @@ namespace DNA.Tools
         {
             foreach (var region in Regions)
             {
-                string SQL = string.Format("Select * from GYYD where XZJDMC={0}")
+                string SQL = string.Format("Select * from GYYD where XZJDMC={0}");
             }
         }
 
         public void GetLandUse(string SQLCommand)
         {
-            
+            using (OleDbConnection connection = new OleDbConnection(ConnectionString)) 
+            {
+                connection.Open();
+                using (OleDbCommand command = connection.CreateCommand()) 
+                {
+                    command.CommandText = SQLCommand;
+                    var reader = command.ExecuteReader();
+
+                }
+                connection.Close();
+            }
         }
 
     }
