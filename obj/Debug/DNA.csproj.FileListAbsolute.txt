@@ -1,0 +1,9 @@
+F:\Github\DNA\DNA\bin\Debug\DNA.exe
+F:\Github\DNA\DNA\bin\Debug\DNA.pdb
+F:\Github\DNA\DNA\obj\Debug\DNA.csprojResolveAssemblyReference.cache
+F:\Github\DNA\DNA\obj\Debug\DNA.exe
+F:\Github\DNA\DNA\obj\Debug\DNA.pdb
+F:\Github\DNA\DNA\bin\Debug\DNA.Helper.dll
+F:\Github\DNA\DNA\bin\Debug\DNA.Helper.pdb
+F:\Github\DNA\DNA\bin\Debug\DNA.Models.dll
+F:\Github\DNA\DNA\bin\Debug\DNA.Models.pdb
