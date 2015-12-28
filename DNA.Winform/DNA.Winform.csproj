@@ -81,6 +81,14 @@
       <Project>{6828f03c-8180-414c-bcda-37ba6aa3874f}</Project>
       <Name>DNA.Helper</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DNA.Models\DNA.Models.csproj">
+      <Project>{bd925e6c-c621-49bb-beba-87d204eb2f9d}</Project>
+      <Name>DNA.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DNA.Tools\DNA.Tools.csproj">
+      <Project>{b7942d7e-7346-4dc2-a57c-908f72789480}</Project>
+      <Name>DNA.Tools</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Sources\mdb.mdb">

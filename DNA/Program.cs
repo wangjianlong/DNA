@@ -1,4 +1,5 @@
 ﻿using DNA.Helper;
+using DNA.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +11,8 @@ namespace DNA
     {
         static void Main(string[] args)
         {
-            //MDBHelper.ReadOne("Select XZJDMC from YDDW GROUP BY XZJDMC");
-            var list = MDBHelper.GetAllDistrict();
-            if (list.Count != 0)
-            {
-                var dict = list.GetExcelOneData();
-                Console.ReadLine();
-
-            }
-           
+            ToolOne tool = new ToolOne();
+            tool.Working();
             Console.ReadLine();
         }
     }

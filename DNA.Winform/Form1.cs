@@ -1,4 +1,5 @@
 ﻿using DNA.Helper;
+using DNA.Tools;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,6 +26,7 @@ namespace DNA.Winform
 
         private void StartBtn_Click(object sender, EventArgs e)
         {
+            
             if (!string.IsNullOrEmpty(this.Folder))
             {
 

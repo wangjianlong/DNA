@@ -13,6 +13,9 @@ namespace DNA.Tools
         public ToolRegion()
         {
             this.Regions = MDBHelper.GetAllDistrict();
+            CreateView = string.Format("Create View {0} As Select * from GYYD Inner Join YDDW On GYYD.QYBH=YDDW.QYBH", ViewName);
+            InitView();
         }
+
     }
 }
