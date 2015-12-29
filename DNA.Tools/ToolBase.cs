@@ -93,13 +93,15 @@ namespace DNA.Tools
                 using (OleDbCommand command = Connection.CreateCommand())
                 {
                     command.CommandText = SQlCommandText;
+                    command.ExecuteNonQuery();
                     try
                     {
-                        command.ExecuteNonQuery();
+                       
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.ToString());
+                        
                     }
                     
                 }
