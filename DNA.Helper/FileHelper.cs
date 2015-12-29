@@ -1,5 +1,7 @@
-﻿using System;
+﻿using NPOI.SS.UserModel;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -19,9 +21,31 @@ namespace DNA.Helper
             }
             return Folder;
         }
+        public static string SaveFile()
+        {
+            string FilePath = string.Empty;
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Title = "生成文件路径";
+            saveFileDialog.Filter = "2003.xls|.xls|2007.xlsx|.xlsx";
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                FilePath = saveFileDialog.FileName;
+            }
+            return FilePath;
+        }
         public static string GetSourcesPath(this string FileName)
         {
             return System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, PathBase, FileName);
+        }
+
+        public static IWorkbook OperWorkbook(this string FilePath)
+        {
+            IWorkbook workbook = null;
+            using (var fs = new FileStream(FilePath, FileMode.Open, FileAccess.ReadWrite))
+            {
+                workbook = WorkbookFactory.Create(fs);
+            }
+            return workbook;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace DNA.Winform
 {
     public partial class Form1 : Form
     {
-        private string Folder { get; set; }
+        private string FilePath { get; set; }
         public Form1()
         {
             InitializeComponent();
@@ -21,15 +21,18 @@ namespace DNA.Winform
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Folder = FileHelper.OpenFolder();
+            FilePath = FileHelper.SaveFile();
+            this.textBox1.Text = FilePath;
+            //Folder = FileHelper.OpenFolder();
         }
 
         private void StartBtn_Click(object sender, EventArgs e)
         {
             
-            if (!string.IsNullOrEmpty(this.Folder))
+            if (!string.IsNullOrEmpty(this.FilePath))
             {
-
+                Manager manager = new Manager(this.FilePath);
+                manager.Analyze();
             }
         }
     }
