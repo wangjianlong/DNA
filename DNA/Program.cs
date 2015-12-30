@@ -11,8 +11,8 @@ namespace DNA
     {
         static void Main(string[] args)
         {
-            ToolOne tool = new ToolOne();
-            tool.Working();
+            int temp = 1314;
+            Console.WriteLine(temp / 100);
             Console.ReadLine();
         }
     }

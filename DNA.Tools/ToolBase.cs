@@ -24,6 +24,7 @@ namespace DNA.Tools
         protected int StartRow { get; set; }
         protected int StartRow2 { get; set; }
         protected int StartCell { get; set; }
+        protected int ValCount { get; set; }
         public ToolBase()
         {
             ConnectionString = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0}", System.Configuration.ConfigurationManager.AppSettings["DATABASE"].GetSourcesPath());
@@ -68,6 +69,10 @@ namespace DNA.Tools
         protected List<string> GetTerraces()
         {
             return GetBase("Select CYPTMC from GYYD Group By CYPTMC") ;
+        }
+        protected List<string> GetCodes()
+        {
+            return GetBase("Select HYDM from YDDW Group By HYDM");
         }
         protected void ExecuteReaderOneToQueue(string SQLCommandText)
         {
@@ -148,6 +153,42 @@ namespace DNA.Tools
                     Line++;
                 }
             }
+        }
+        protected void ReadData(string[] SQLCommandTexts)
+        {
+            queue.Clear();
+            if (SQLCommandTexts != null)
+            {
+                foreach (var str in SQLCommandTexts)
+                {
+                    ExecuteReaderOneToQueue(str);
+                }
+            }
+        }
+        protected DataBase Translate(Queue<string> queue)
+        {
+
+            DataBase database = new DataBase();
+            if (queue.Count == ValCount)
+            {
+                System.Reflection.PropertyInfo[] propList = typeof(DataBase).GetProperties();
+                foreach (var item in propList)
+                {
+                    if (item.Name == "GYYD")
+                    {
+                        continue;
+                    }
+                    if (item.PropertyType.Equals(typeof(double)))
+                    {
+                        item.SetValue(database, double.Parse(queue.Dequeue()), null);
+                    }
+                    else if (item.PropertyType.Equals(typeof(int)))
+                    {
+                        item.SetValue(database, int.Parse(queue.Dequeue()), null);
+                    }
+                }
+            }
+            return database;
         }
         public void Dispose()
         {

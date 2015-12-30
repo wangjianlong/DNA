@@ -18,7 +18,6 @@ namespace DNA.Tools
         public string TempView2 { get; set; }
         public DataOne RegionSum { get; set; }
         public DataOne TerraceSum { get; set; }
-        private int ValCount { get; set; }
         public ToolOne()
         {
             RegionsDict = new Dictionary<string, DataOne>();
@@ -47,14 +46,19 @@ namespace DNA.Tools
                 DataOne one = new DataOne();
                 foreach (var val in SFS)
                 {
-                    queue.Clear();
+                    //queue.Clear();
+                    ReadData(new string[]{
+                        string.Format("Select SUM(GYYD.PZYDMJ),SUM(YDDW.TDZMJ),SUM(GYYD.YDZMJ),SUM(GYYD.JZZMJ),SUM(GYYD.JZZDMJ),SUM(GYYD.WPZJZMJ),SUM(GYYD.WPZJZZDMJ),SUM(GYYD.TDDJMJ),SUM(GYYD.DYMJ),SUM(GYYD.CZQYSL) from {0} where GYYD.XZJDMC={1} AND YDDW.SFGSQY={2}", ViewName, region, val),
+                        string.Format("Select COUNT(*) from YDDW where SFGXQY=是 AND XZJDMC={0} AND SFGSQY={1}", region, val),
+                        string.Format("Select SUM(CYRS),SUM(LJGDZCTZ),SUM(YDL2012),SUM(YDL2013),SUM(YDL2014),SUM(GSRKSS2012),SUM(GSRKSS2013),SUM(GSRKSS2014),SUM(DSRKSS2012),SUM(DSRKSS2013),SUM(DSRKSS2014),SUM(ZYYSR2012),SUM(ZYYSR2013),SUM(ZYYSR2014) from YDDW where  XZJDMC={0} AND SFGSQY={1}", region, val)
+                    });
                     //批准用地面积 总面积 未批准 建筑总面积
-                    SQLText = string.Format("Select SUM(GYYD.PZYDMJ),SUM(YDDW.TDZMJ),SUM(GYYD.YDZMJ),SUM(GYYD.JZZMJ),SUM(GYYD.JZZDMJ),SUM(GYYD.WPZJZMJ),SUM(GYYD.WPZJZZDMJ),SUM(GYYD.TDDJMJ),SUM(GYYD.DYMJ),SUM(GYYD.CZQYSL) from {0} where GYYD.XZJDMC={1} AND YDDW.SFGSQY={2}", ViewName, region, val);
-                    ExecuteReaderOneToQueue(SQLText);
-                    SQLText = string.Format("Select COUNT(*) from YDDW where SFGXQY=是 AND XZJDMC={0} AND SFGSQY={1}", region, val);
-                    ExecuteReaderOneToQueue(SQLText);
-                    SQLText = string.Format("Select SUM(CYRS),SUM(LJGDZCTZ),SUM(YDL2012),SUM(YDL2013),SUM(YDL2014),SUM(GSRKSS2012),SUM(GSRKSS2013),SUM(GSRKSS2014),SUM(DSRKSS2012),SUM(DSRKSS2013),SUM(DSRKSS2014),SUM(ZYYSR2012),SUM(ZYYSR2013),SUM(ZYYSR2014) from YDDW where  XZJDMC={0} AND SFGSQY={1}", region, val);
-                    ExecuteReaderOneToQueue(SQLText);
+                    //SQLText = 
+                    //ExecuteReaderOneToQueue(SQLText);
+                    //SQLText = 
+                    //ExecuteReaderOneToQueue(SQLText);
+                    //SQLText = 
+                    //ExecuteReaderOneToQueue(SQLText);
                     DataBase databse = Translate(queue);
                     switch (val)
                     {
@@ -78,13 +82,18 @@ namespace DNA.Tools
                 ExecuteQuery(SQLText);
                 foreach (var val in SFS)
                 {
-                    queue.Clear();
-                    SQLText = string.Format("Select SUM(GYYD.PZYDMJ),SUM(YDDW.TDZMJ),SUM(GYYD.YDZMJ),SUM(GYYD.JZZMJ),SUM(GYYD.JZZDMJ),SUM(GYYD.WPZJZMJ),SUM(GYYD.WPZJZZDMJ),SUM(GYYD.TDDJMJ),SUM(GYYD.DYMJ),SUM(GYYD.CZQYSL) from {0} where GYYD.CYPTMC LIKE '%{1}%' AND YDDW.SFGSQY={2}", ViewName, terrace, val);
-                    ExecuteReaderOneToQueue(SQLText);
-                    SQLText = string.Format("Select COUNT(*) from {0} inner join YDDW on YDDW.QYBH={0}.QYBH where YDDW.SFGXQY=是 AND SFGSQY={1}", TempView2, val);
-                    ExecuteReaderOneToQueue(SQLText);
-                    SQLText = string.Format("Select SUM(YDDW.CYRS),SUM(YDDW.LJGDZCTZ),SUM(YDDW.YDL2012),SUM(YDDW.YDL2013),SUM(YDDW.YDL2014),SUM(YDDW.GSRKSS2012),SUM(YDDW.GSRKSS2013),SUM(YDDW.GSRKSS2014),SUM(YDDW.DSRKSS2012),SUM(YDDW.DSRKSS2013),SUM(YDDW.DSRKSS2014),SUM(YDDW.ZYYSR2012),SUM(YDDW.ZYYSR2013),SUM(YDDW.ZYYSR2014) from YDDW inner join {0} on YDDW.QYBH={0}.QYBH where SFGSQY={1}", TempView2, val);
-                    ExecuteReaderOneToQueue(SQLText);
+                    //queue.Clear();
+                    ReadData(new string[]{
+                        string.Format("Select SUM(GYYD.PZYDMJ),SUM(YDDW.TDZMJ),SUM(GYYD.YDZMJ),SUM(GYYD.JZZMJ),SUM(GYYD.JZZDMJ),SUM(GYYD.WPZJZMJ),SUM(GYYD.WPZJZZDMJ),SUM(GYYD.TDDJMJ),SUM(GYYD.DYMJ),SUM(GYYD.CZQYSL) from {0} where GYYD.CYPTMC LIKE '%{1}%' AND YDDW.SFGSQY={2}", ViewName, terrace, val),
+                        string.Format("Select COUNT(*) from {0} inner join YDDW on YDDW.QYBH={0}.QYBH where YDDW.SFGXQY=是 AND SFGSQY={1}", TempView2, val),
+                        string.Format("Select SUM(YDDW.CYRS),SUM(YDDW.LJGDZCTZ),SUM(YDDW.YDL2012),SUM(YDDW.YDL2013),SUM(YDDW.YDL2014),SUM(YDDW.GSRKSS2012),SUM(YDDW.GSRKSS2013),SUM(YDDW.GSRKSS2014),SUM(YDDW.DSRKSS2012),SUM(YDDW.DSRKSS2013),SUM(YDDW.DSRKSS2014),SUM(YDDW.ZYYSR2012),SUM(YDDW.ZYYSR2013),SUM(YDDW.ZYYSR2014) from YDDW inner join {0} on YDDW.QYBH={0}.QYBH where SFGSQY={1}", TempView2, val)
+                    });
+                    //SQLText = 
+                    //ExecuteReaderOneToQueue(SQLText);
+                    //SQLText = 
+                    //ExecuteReaderOneToQueue(SQLText);
+                    //SQLText = 
+                    //ExecuteReaderOneToQueue(SQLText);
                     DataBase database = Translate(queue);
                     switch (val)
                     {
@@ -112,7 +121,8 @@ namespace DNA.Tools
                 WriteBase(one.Up, Sheet, StartRow++, StartCell);
                 WriteBase(one.Down, Sheet, StartRow++, StartCell);
             }
-            WriteBase(RegionSum, Sheet, StartRow2 - 2, StartCell);
+            WriteBase(RegionSum.Up, Sheet, StartRow2 - 2, StartCell);
+            WriteBase(RegionSum.Down, Sheet, StartRow2 - 1, StartCell);
             foreach (var terrace in TerraceDict.Keys)
             {
                 Sheet.GetRow(StartRow2).GetCell(1).SetCellValue(terrace);
@@ -120,33 +130,10 @@ namespace DNA.Tools
                 WriteBase(one.Up, Sheet, StartRow2++, StartCell);
                 WriteBase(one.Down, Sheet, StartRow2++, StartCell);
             }
-            WriteBase(TerraceSum, Sheet, 32, StartCell);
+            WriteBase(TerraceSum.Up, Sheet, 32, StartCell);
+            WriteBase(TerraceSum.Down, Sheet, 33, StartCell);
         }
-        protected DataBase Translate(Queue<string> queue)
-        {
-            
-            DataBase database = new DataBase();
-            if (queue.Count == ValCount)
-            {
-                System.Reflection.PropertyInfo[] propList = typeof(DataBase).GetProperties();
-                foreach (var item in propList)
-                {
-                    if (item.Name == "GYYD")
-                    {
-                        continue;
-                    }
-                    if (item.PropertyType.Equals(typeof(double)))
-                    {
-                        item.SetValue(database, double.Parse(queue.Dequeue()), null);
-                    }
-                    else if (item.PropertyType.Equals(typeof(int)))
-                    {
-                        item.SetValue(database, int.Parse(queue.Dequeue()), null);
-                    }
-                }
-            }
-            return database;
-        }
+        
 
     }
 }

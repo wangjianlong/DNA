@@ -65,9 +65,11 @@
     <Compile Include="Manager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ToolBase.cs" />
+    <Compile Include="ToolFour.cs" />
     <Compile Include="ToolOne.cs" />
     <Compile Include="ToolRegion.cs" />
     <Compile Include="ToolThree.cs" />
+    <Compile Include="ToolTwo.cs" />
     <Compile Include="ToolType.cs" />
   </ItemGroup>
   <ItemGroup>
