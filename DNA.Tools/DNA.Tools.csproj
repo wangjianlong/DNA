@@ -67,6 +67,7 @@
     <Compile Include="ToolBase.cs" />
     <Compile Include="ToolOne.cs" />
     <Compile Include="ToolRegion.cs" />
+    <Compile Include="ToolThree.cs" />
     <Compile Include="ToolType.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -5,6 +5,7 @@ using System.Text;
 using DNA.Helper;
 using System.Data.OleDb;
 using DNA.Models;
+using NPOI.SS.UserModel;
 
 namespace DNA.Tools
 {
@@ -19,6 +20,10 @@ namespace DNA.Tools
         protected string DropView { get; set; }
         protected string SQLText { get; set; }
         protected Queue<string> queue { get; set; }
+        public string SheetName { get; set; }
+        protected int StartRow { get; set; }
+        protected int StartRow2 { get; set; }
+        protected int StartCell { get; set; }
         public ToolBase()
         {
             ConnectionString = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0}", System.Configuration.ConfigurationManager.AppSettings["DATABASE"].GetSourcesPath());
@@ -114,6 +119,34 @@ namespace DNA.Tools
             if (!string.IsNullOrEmpty(CreateView))
             {
                 ExecuteQuery(CreateView);
+            }
+        }
+        protected void WriteBase<T>(T Data, ISheet Sheet, int Row, int Line)
+        {
+            System.Reflection.PropertyInfo[] propList = typeof(T).GetProperties();
+            double val = 0.0;
+            int Values = 0;
+            IRow row = Sheet.GetRow(Row);
+            if (row != null)
+            {
+                foreach (var item in propList)
+                {
+                    if (item.PropertyType.Equals(typeof(double)))
+                    {
+                        if (double.TryParse(item.GetValue(Data, null).ToString(), out val))
+                        {
+                            row.GetCell(Line).SetCellValue(Math.Round(val, 2));
+                        }
+                    }
+                    else if (item.PropertyType.Equals(typeof(int)))
+                    {
+                        if (int.TryParse(item.GetValue(Data, null).ToString(), out Values))
+                        {
+                            row.GetCell(Line).SetCellValue(Values);
+                        }
+                    }
+                    Line++;
+                }
             }
         }
         public void Dispose()

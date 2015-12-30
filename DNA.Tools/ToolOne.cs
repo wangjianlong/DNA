@@ -15,10 +15,6 @@ namespace DNA.Tools
         /// </summary>
         public Dictionary<string, DataOne> RegionsDict { get; set; }
         public Dictionary<string, DataOne> TerraceDict { get; set; }
-        public string SheetName { get; set; }
-        public int StartRow { get; set; }
-        public int StartRow2 { get; set; }
-        public int StartCell { get; set; }
         public string TempView2 { get; set; }
         public DataOne RegionSum { get; set; }
         public DataOne TerraceSum { get; set; }
@@ -44,7 +40,6 @@ namespace DNA.Tools
             TempView2 = "TEMPVIEW2";
             SheetName = "表1";
         }
-
         public void Working()
         {
             foreach (var region in Regions)
@@ -107,35 +102,7 @@ namespace DNA.Tools
                 TerraceSum = TerraceSum + one;
             }
         }
-        public void WriteBase(DataBase DataBase,ISheet Sheet,int Row,int Line)
-        {
-            System.Reflection.PropertyInfo[] propList = typeof(DataBase).GetProperties();
-            double val = 0.0;
-            int Values = 0;
-            IRow row = Sheet.GetRow(Row);
-            if (row != null)
-            {
-                foreach (var item in propList)
-                {
-                    if (item.PropertyType.Equals(typeof(double)))
-                    {
-                        if (double.TryParse(item.GetValue(DataBase, null).ToString(), out val))
-                        {
-                            row.GetCell(Line).SetCellValue(Math.Round(val, 2));
-                        }
-                    }
-                    else if (item.PropertyType.Equals(typeof(int)))
-                    {
-                        if (int.TryParse(item.GetValue(DataBase, null).ToString(), out Values))
-                        {
-                            row.GetCell(Line).SetCellValue(Values);
-                        }
-                    }
-                    Line++;
-                }
-            }
-          
-        }
+       
         public void Write(ref ISheet Sheet)
         {
             foreach (var region in RegionsDict.Keys)
@@ -155,7 +122,6 @@ namespace DNA.Tools
             }
             WriteBase(TerraceSum, Sheet, 32, StartCell);
         }
-        
         protected DataBase Translate(Queue<string> queue)
         {
             
