@@ -62,6 +62,25 @@ namespace DNA.Tools
             }
             return list;
         }
+        protected string GetOneBase(string SQLCommandText)
+        {
+            string str = string.Empty;
+            using (OleDbConnection connection = new OleDbConnection(ConnectionString))
+            {
+                connection.Open();
+                using (OleDbCommand Command = connection.CreateCommand())
+                {
+                    Command.CommandText = SQLCommandText;
+                    var reader = Command.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        str = reader[0].ToString();
+                    }
+                }
+                connection.Close();
+            }
+            return str;
+        }
         protected List<string> GetRegions()
         {
             return GetBase("Select XZJDMC from YDDW Group By XZJDMC");

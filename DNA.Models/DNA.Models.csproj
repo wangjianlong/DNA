@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AParcel.cs" />
+    <Compile Include="ChangePurpose.cs" />
     <Compile Include="DataBase.cs" />
     <Compile Include="DataOne.cs" />
     <Compile Include="IGain.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="LandUse.cs" />
     <Compile Include="Parcel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TDSJYTJG.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

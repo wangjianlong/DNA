@@ -5,64 +5,12 @@ using System.Text;
 
 namespace DNA.Models
 {
-    public class DataBase
+    public class MergeBase
     {
         /// <summary>
-        /// 批准用地面积
+        /// 是否高新企业
         /// </summary>
-        public double PZYDMJ { get; set; }
-        /// <summary>
-        /// 实际用地面积——总面积
-        /// </summary>
-        public double YDZMJ { get; set; }
-        /// <summary>
-        /// 实际用地面积——未批准面积
-        /// </summary>
-        public double WJPZYDMJ { get; set; }
-        /// <summary>
-        /// 实际用地面积——工业用地
-        /// </summary>
-        public double GYYD
-        {
-            get
-            {
-                return YDZMJ;
-            }
-        }
-        /// <summary>
-        /// 建筑总面积
-        /// </summary>
-        public double JZZMJ { get; set; }
-        /// <summary>
-        /// 建筑占地面积
-        /// </summary>
-        public double JZZDMJ { get; set; }
-        /// <summary>
-        /// 未批准建筑面积
-        /// </summary>
-        public double WPZJZMJ { get; set; }
-        /// <summary>
-        /// 未批准建筑占地面积
-        /// </summary>
-        public double WPZJZZDMJ { get; set; }
-        /// <summary>
-        /// 土地登记面积
-        /// </summary>
-        public double TDDJMJ { get; set; }
-        /// <summary>
-        /// 抵押土地面积
-        /// </summary>
-        public double DYMJ { get; set; }
-        /// <summary>
-        /// 承载企业数
-        /// </summary>
-        public int CZQYSL { get; set; }
-        #region 2
-
-        /// <summary>
-        /// 高新企业数量
-        /// </summary>
-        public int SFGXQY { get; set; }
+        public bool SFGXQY { get; set; }
         /// <summary>
         /// 从业人数
         /// </summary>
@@ -119,28 +67,15 @@ namespace DNA.Models
         /// 主营业收入 2014
         /// </summary>
         public double ZYYSR2014 { get; set; }
-
-        #endregion
-        public static DataBase operator +(DataBase c1, DataBase c2)
+        public static MergeBase operator +(MergeBase c1, MergeBase c2)
         {
-            return new DataBase()
+            return new MergeBase()
             {
-                PZYDMJ = c1.PZYDMJ + c2.PZYDMJ,
-                YDZMJ = c1.YDZMJ + c2.YDZMJ,
-                WJPZYDMJ = c1.WJPZYDMJ + c2.WJPZYDMJ,
-                JZZMJ = c1.JZZMJ + c2.JZZMJ,
-                JZZDMJ = c1.JZZDMJ + c2.JZZDMJ,
-                WPZJZMJ = c1.WPZJZMJ + c2.WPZJZMJ,
-                WPZJZZDMJ = c1.WPZJZZDMJ + c2.WPZJZZDMJ,
-                TDDJMJ = c1.TDDJMJ + c2.TDDJMJ,
-                DYMJ = c1.DYMJ + c2.DYMJ,
-                CZQYSL = c1.CZQYSL + c2.CZQYSL,
-                SFGXQY = c1.SFGXQY + c2.SFGXQY,
                 CYRS = c1.CYRS + c2.CYRS,
                 LJGDZCTZ = c1.LJGDZCTZ + c2.LJGDZCTZ,
                 YDL2012 = c1.YDL2012 + c2.YDL2012,
                 YDL2013 = c1.YDL2013 + c2.YDL2013,
-                YDL2014 = c1.YDL2014 = c2.YDL2014,
+                YDL2014 = c1.YDL2014 + c2.YDL2014,
                 GSRKSS2012 = c1.GSRKSS2012 + c2.GSRKSS2012,
                 GSRKSS2013 = c1.GSRKSS2013 + c2.GSRKSS2013,
                 GSRKSS2014 = c1.GSRKSS2014 + c2.GSRKSS2014,
@@ -152,10 +87,9 @@ namespace DNA.Models
                 ZYYSR2014 = c1.ZYYSR2014 + c2.ZYYSR2014
             };
         }
-    }
-
-    public enum Purpose
-    {
-        
+        public static MergeBase operator *(MergeBase c1, double a)
+        {
+            return new MergeBase();
+        }
     }
 }
