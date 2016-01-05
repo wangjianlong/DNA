@@ -17,7 +17,10 @@ namespace DNA.Models
         /// 高新企业数量
         /// </summary>
         public int SFGXQY { get; set; }
+        
         public MergeBase Base { get; set; }
+        public HY Hy { get; set; }
+        public bool SFGSQY { get; set; }
         public static Merge operator +(Merge c1, Merge c2)
         {
             return new Merge()
@@ -27,5 +30,11 @@ namespace DNA.Models
                 Base = c1.Base + c2.Base
             };
         }
+    }
+
+    public class HY
+    {
+        public string HYLB { get; set; }
+        public string HYDM { get; set; }
     }
 }

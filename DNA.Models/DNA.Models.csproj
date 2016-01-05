@@ -63,9 +63,12 @@
     <Compile Include="ChangePurpose.cs" />
     <Compile Include="DataBase.cs" />
     <Compile Include="DataOne.cs" />
+    <Compile Include="GYDW.cs" />
     <Compile Include="IGain.cs" />
     <Compile Include="ITool.cs" />
     <Compile Include="LandUse.cs" />
+    <Compile Include="Merge.cs" />
+    <Compile Include="MergeBase.cs" />
     <Compile Include="Parcel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TDSJYTJG.cs" />

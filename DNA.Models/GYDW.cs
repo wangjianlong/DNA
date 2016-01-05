@@ -11,5 +11,6 @@ namespace DNA.Models
         public string DKBH { get; set; }
         public string QYBH { get; set; }
         public double JZMJ { get; set; }
+        public double Percent { get; set; }
     }
 }

@@ -32,7 +32,7 @@ namespace DNA.Winform
             if (!string.IsNullOrEmpty(this.FilePath))
             {
                 Manager manager = new Manager(this.FilePath);
-                manager.Analyze();
+                manager.Analyze2();
             }
         }
     }

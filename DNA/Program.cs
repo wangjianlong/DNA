@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace DNA
 {
@@ -97,7 +98,7 @@ namespace DNA
 
 
 
-
+            
 
             string x = "3.65";
             string y = "3.65";

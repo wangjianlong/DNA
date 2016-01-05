@@ -29,6 +29,16 @@ namespace DNA.Tools
             }
             Save();
         }
+        public void Analyze2()
+        {
+            MainTool mainTool = new MainTool();
+            ISheet sheet = WorkBook.CreateSheet("ceshi");
+            if (sheet != null)
+            {
+                mainTool.Doing();
+               // mainTool.Write(ref sheet);
+            }
+        }
 
         public void Save()
         {
