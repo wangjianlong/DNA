@@ -69,6 +69,7 @@ namespace DNA.Models
         public double ZYYSR2014 { get; set; }
         public double TDZMJ { get; set; }
         public bool SFGSQY { get; set; }
+        public double GDZCYJ { get; set; }
         public static MergeBase operator +(MergeBase c1, MergeBase c2)
         {
             return new MergeBase()
@@ -87,7 +88,8 @@ namespace DNA.Models
                 ZYYSR2012 = c1.ZYYSR2012 + c2.ZYYSR2012,
                 ZYYSR2013 = c1.ZYYSR2013 + c2.ZYYSR2013,
                 ZYYSR2014 = c1.ZYYSR2014 + c2.ZYYSR2014,
-                TDZMJ=c1.TDZMJ+c2.TDZMJ
+                TDZMJ=c1.TDZMJ+c2.TDZMJ,
+                GDZCYJ=c1.GDZCYJ+c2.GDZCYJ
             };
         }
         public static MergeBase operator -(MergeBase c1, MergeBase c2)
@@ -108,7 +110,8 @@ namespace DNA.Models
                 ZYYSR2012 = c1.ZYYSR2012 - c2.ZYYSR2012,
                 ZYYSR2013 = c1.ZYYSR2013 - c2.ZYYSR2013,
                 ZYYSR2014 = c1.ZYYSR2014 - c2.ZYYSR2014,
-                TDZMJ = c1.TDZMJ - c2.TDZMJ
+                TDZMJ = c1.TDZMJ - c2.TDZMJ,
+                GDZCYJ=c1.GDZCYJ-c2.GDZCYJ
             };
         }
         public static MergeBase operator *(MergeBase c1, double a)
@@ -129,7 +132,8 @@ namespace DNA.Models
                 ZYYSR2012 = c1.ZYYSR2012 * a,
                 ZYYSR2013 = c1.ZYYSR2013 * a,
                 ZYYSR2014 = c1.ZYYSR2014 * a,
-                TDZMJ=c1.TDZMJ*a
+                TDZMJ=c1.TDZMJ*a,
+                GDZCYJ=c1.GDZCYJ*a
             };
         }
     }

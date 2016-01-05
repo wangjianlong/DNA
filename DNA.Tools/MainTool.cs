@@ -215,9 +215,9 @@ namespace DNA.Tools
                         merge.Hy = GetHY(string.Format("Select HYLB, HYDM from YDDW where QYBH='{0}'", gydw.QYBH));
                     }
                     ReadData(new string[]{
-                        string.Format("Select SFGXQY,CYRS,LJGDZCTZ,YDL2012,YDL2013,YDL2014,GSRKSS2012,GSRKSS2013,GSRKSS2014,DSRKSS2012,DSRKSS2013,DSRKSS2014,ZYYSR2012,ZYYSR2013,ZYYSR2014,TDZMJ,SFGSQY from YDDW where QYBH='{0}'", gydw.QYBH)
+                        string.Format("Select SFGXQY,CYRS,LJGDZCTZ,YDL2012,YDL2013,YDL2014,GSRKSS2012,GSRKSS2013,GSRKSS2014,DSRKSS2012,DSRKSS2013,DSRKSS2014,ZYYSR2012,ZYYSR2013,ZYYSR2014,TDZMJ,SFGSQY,GDZCYJ from YDDW where QYBH='{0}'", gydw.QYBH)
                     });
-                    var mergebase = Translate(queue,17);
+                    var mergebase = Translate(queue,18);
                     
                     if (!merge.SFGSQY && mergebase.SFGSQY)
                     {
@@ -263,7 +263,7 @@ namespace DNA.Tools
             {
                 var tem=Dict[key];
                 var boolstr = tem.SFGSQY ? "是" : "否";
-                SQLText = string.Format("UPDATE GYYD SET LJGDZCTZ={0},ZYYSR2012={1},ZYYSR2013={2},ZYYSR2014={3},DSRKSS2012={4},DSRKSS2013={5},DSRKSS2014={6},GSRKSS2012={7},GSRKSS2013={8},GSRKSS2014={9},YDL2012={10},YDL2013={11},YDL2014={12},CYRS={13},TDZMJ={14},SFGXQY={15},SYDKS=1,SFGSQY='{16}',HYLB='{17}',HYDM='{18}' where DKBH='{19}'", tem.Base.LJGDZCTZ, tem.Base.ZYYSR2012, tem.Base.ZYYSR2013, tem.Base.ZYYSR2014, tem.Base.DSRKSS2012, tem.Base.DSRKSS2013, tem.Base.DSRKSS2014, tem.Base.GSRKSS2012, tem.Base.GSRKSS2013, tem.Base.GSRKSS2014, tem.Base.YDL2012, tem.Base.YDL2013, tem.Base.YDL2014, tem.Base.CYRS,tem.Base.TDZMJ,tem.SFGXQY,boolstr,tem.Hy.HYLB,tem.Hy.HYDM, tem.DKBH);
+                SQLText = string.Format("UPDATE GYYD SET LJGDZCTZ={0},ZYYSR2012={1},ZYYSR2013={2},ZYYSR2014={3},DSRKSS2012={4},DSRKSS2013={5},DSRKSS2014={6},GSRKSS2012={7},GSRKSS2013={8},GSRKSS2014={9},YDL2012={10},YDL2013={11},YDL2014={12},CYRS={13},TDZMJ={14},SFGXQY={15},SYDKS=1,SFGSQY='{16}',HYLB='{17}',HYDM='{18}',GDZCYJ={19} where DKBH='{20}'", tem.Base.LJGDZCTZ, tem.Base.ZYYSR2012, tem.Base.ZYYSR2013, tem.Base.ZYYSR2014, tem.Base.DSRKSS2012, tem.Base.DSRKSS2013, tem.Base.DSRKSS2014, tem.Base.GSRKSS2012, tem.Base.GSRKSS2013, tem.Base.GSRKSS2014, tem.Base.YDL2012, tem.Base.YDL2013, tem.Base.YDL2014, tem.Base.CYRS,tem.Base.TDZMJ,tem.SFGXQY,boolstr,tem.Hy.HYLB,tem.Hy.HYDM,tem.Base.GDZCYJ, tem.DKBH);
                 try
                 {
                     ExecuteQuery(SQLText);
@@ -277,6 +277,41 @@ namespace DNA.Tools
             Console.WriteLine("成功");
         }
 
+
+        public void Working()
+        {
+            var list = new List<Potential>();
+            using (OleDbConnection connection = new OleDbConnection(ConnectionString))
+            {
+                connection.Open();
+                using (OleDbCommand Command = connection.CreateCommand())
+                {
+                    Command.CommandText = "Select JZZMJ,YDZMJ,GDZCYJ,GSRKSS2014,DSRKSS2014,ZYYSR2014,JZRJZB,TZQDZB,SSCCZB,ZYYSL,SFGSQY,DKBH from GYYD";
+                    var reader = Command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        list.Add(new Potential()
+                        {
+                            JZZMJ = double.Parse(reader[0].ToString()),
+                            YDZMJ = double.Parse(reader[1].ToString()),
+                            GDZCYJ = double.Parse(reader[2].ToString()),
+                            GSRKSS2014 = double.Parse(reader[3].ToString()),
+                            DSRKSS2014 = double.Parse(reader[4].ToString()),
+                            ZYYSR2014 = double.Parse(reader[5].ToString()),
+                            JZRJZB = double.Parse(reader[6].ToString()),
+                            TZQDZB = double.Parse(reader[7].ToString()),
+                            SSCCZB = double.Parse(reader[8].ToString()),
+                            ZYYSL = double.Parse(reader[9].ToString()),
+                            SFGSQY = reader[10].ToString() == "是" ? true : false,
+                            DKBH=reader[11].ToString()
+                        });
+                    }
+                }
+                connection.Close();
+            }
+
+        }
+        
         public void DD(List<GYDW> List)
         {
             IWorkbook workbook = new HSSFWorkbook();
