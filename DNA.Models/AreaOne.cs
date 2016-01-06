@@ -1,0 +1,69 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace DNA.Models
+{
+    public class AreaOne
+    {
+        /// <summary>
+        /// 实际用地面积——总面积
+        /// </summary>
+        public double YDZMJ { get; set; }
+        /// <summary>
+        /// 实际用地面积——未批准面积
+        /// </summary>
+        public double WJPZYDMJ { get; set; }
+        /// <summary>
+        /// 实际用地面积——工业用地
+        /// </summary>
+        public double GYYD
+        {
+            get
+            {
+                return YDZMJ;
+            }
+        }
+        /// <summary>
+        /// 建筑总面积
+        /// </summary>
+        public double JZZMJ { get; set; }
+        /// <summary>
+        /// 建筑占地面积
+        /// </summary>
+        public double JZZDMJ { get; set; }
+        /// <summary>
+        /// 未批准建筑面积
+        /// </summary>
+        public double WPZJZMJ { get; set; }
+        /// <summary>
+        /// 未批准建筑占地面积
+        /// </summary>
+        public double WPZJZZDMJ { get; set; }
+        public static AreaOne operator *(AreaOne c1, double a)
+        {
+            return new AreaOne()
+            {
+                YDZMJ = c1.YDZMJ * a,
+                WJPZYDMJ = c1.WJPZYDMJ * a,
+                JZZMJ = c1.JZZMJ * a,
+                JZZDMJ = c1.JZZDMJ * a,
+                WPZJZMJ = c1.WPZJZMJ * a,
+                WPZJZZDMJ = c1.WPZJZZDMJ * a
+            };
+        }
+        public static AreaOne operator /(AreaOne c1, double a)
+        {
+            return new AreaOne()
+            {
+                YDZMJ = c1.YDZMJ / a,
+                WJPZYDMJ = c1.WJPZYDMJ / a,
+                JZZMJ = c1.JZZMJ / a,
+                JZZDMJ = c1.JZZDMJ / a,
+                WPZJZMJ = c1.WPZJZMJ / a,
+                WPZJZZDMJ = c1.WPZJZZDMJ / a
+            };
+        }
+    }
+}

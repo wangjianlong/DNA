@@ -64,9 +64,11 @@
     <Compile Include="GainOne.cs" />
     <Compile Include="MainTool.cs" />
     <Compile Include="Manager.cs" />
+    <Compile Include="MergeTool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ToolBase.cs" />
     <Compile Include="ToolFour.cs" />
+    <Compile Include="ToolMerge.cs" />
     <Compile Include="ToolOne.cs" />
     <Compile Include="ToolPurpose.cs" />
     <Compile Include="ToolRegion.cs" />

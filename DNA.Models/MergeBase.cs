@@ -67,9 +67,26 @@ namespace DNA.Models
         /// 主营业收入 2014
         /// </summary>
         public double ZYYSR2014 { get; set; }
+        /// <summary>
+        /// 土地总面积
+        /// </summary>
         public double TDZMJ { get; set; }
+        /// <summary>
+        /// 是否规上企业
+        /// </summary>
         public bool SFGSQY { get; set; }
+        /// <summary>
+        /// 固定资产原价
+        /// </summary>
         public double GDZCYJ { get; set; }
+        /// <summary>
+        /// 行业代码
+        /// </summary>
+        public string HYDM { get; set; }
+        /// <summary>
+        /// 行政街道名称
+        /// </summary>
+        public string XZJDMC { get; set; }
         public static MergeBase operator +(MergeBase c1, MergeBase c2)
         {
             return new MergeBase()

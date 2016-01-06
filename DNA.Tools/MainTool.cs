@@ -15,7 +15,6 @@ namespace DNA.Tools
         public List<GYDW> List { get; set; }
         public Dictionary<string, Merge> Dict { get; set; }//地块编号->  地块信息
         public Dictionary<string, TempData> TempDict { get; set; }//企业编号->  有几块地  总共的建筑面积
-
         public Dictionary<string, List<MergeBase>> MarginDict { get; set; }
         public MainTool()
         {
@@ -24,7 +23,6 @@ namespace DNA.Tools
             StartRow = 1;
             StartCell = 0;
         }
-
         protected MergeBase Translate(Queue<string> queue,int ValCount,bool Flag=false)
         {
             MergeBase database = new MergeBase();
@@ -186,7 +184,6 @@ namespace DNA.Tools
             }
             return hy;
         }
-
         public Dictionary<string, TempData> GetDict()
         {
             var dict = new Dictionary<string, TempData>();
@@ -301,8 +298,6 @@ namespace DNA.Tools
             BB();
             Console.WriteLine("Success");
         }
-
-
         public void Working()
         {
             var list = new List<Potential>();
@@ -349,7 +344,6 @@ namespace DNA.Tools
             Console.WriteLine("成功");
 
         }
-        
         public void DD(List<GYDW> List)
         {
             IWorkbook workbook = new HSSFWorkbook();
@@ -369,7 +363,6 @@ namespace DNA.Tools
                 workbook.Write(fs);
             }
         }
-
         public void BB()
         {
             IWorkbook workbook = new HSSFWorkbook();
@@ -400,7 +393,6 @@ namespace DNA.Tools
             }
 
         }
-
         public void Write(ref ISheet Sheet)
         {
             int Line=0;
@@ -424,7 +416,6 @@ namespace DNA.Tools
                 WriteBase2(key.Base, Sheet, StartRow, Line++);
             }
         }
-
         public void WriteBase2<T>(T Data,ISheet Sheet,int Row,int Line)
         {
             System.Reflection.PropertyInfo[] propList = typeof(T).GetProperties();

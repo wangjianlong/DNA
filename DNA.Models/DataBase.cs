@@ -154,9 +154,18 @@ namespace DNA.Models
         }
         public static DataBase operator /(DataBase c1, int a)
         {
-            return new DataBase(){
-                //PZYDMJ
-            }
+            return new DataBase()
+            {
+                PZYDMJ = c1.PZYDMJ / a,
+                YDZMJ = c1.YDZMJ / a,
+                WJPZYDMJ = c1.WJPZYDMJ / a,
+                JZZMJ = c1.JZZMJ / a,
+                JZZDMJ = c1.JZZDMJ / a,
+                WPZJZMJ = c1.WPZJZMJ / a,
+                WPZJZZDMJ = c1.WPZJZZDMJ / a,
+                TDDJMJ = c1.TDDJMJ / a,
+                DYMJ = c1.DYMJ / a
+            };
         }
     }
 

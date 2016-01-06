@@ -21,6 +21,8 @@ namespace DNA.Tools
         }
         public void Analyze()
         {
+            MergeTool mergetool = new MergeTool();
+            mergetool.Working();
             ToolOne tool = new ToolOne();
             ISheet sheet = WorkBook.GetSheet(tool.SheetName);
             if (sheet != null)
@@ -30,6 +32,7 @@ namespace DNA.Tools
                 tool.Write(ref sheet);
             }
             Save();
+            
         }
         public void Analyze2()
         {

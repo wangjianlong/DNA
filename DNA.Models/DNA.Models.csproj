@@ -60,18 +60,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AParcel.cs" />
+    <Compile Include="AreaBase.cs" />
+    <Compile Include="AreaOne.cs" />
     <Compile Include="ChangePurpose.cs" />
     <Compile Include="DataBase.cs" />
     <Compile Include="DataOne.cs" />
     <Compile Include="GYDW.cs" />
     <Compile Include="IGain.cs" />
     <Compile Include="ITool.cs" />
-    <Compile Include="LandUse.cs" />
     <Compile Include="Merge.cs" />
     <Compile Include="MergeBase.cs" />
     <Compile Include="Parcel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TDSJYTJG.cs" />
+    <Compile Include="Union.cs" />
+    <Compile Include="UnionBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
