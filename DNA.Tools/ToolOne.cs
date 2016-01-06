@@ -39,6 +39,65 @@ namespace DNA.Tools
             TempView2 = "TEMPVIEW2";
             SheetName = "表1";
         }
+
+        public void Doing()
+        {
+            #region  获取 乡镇
+            foreach (var region in Regions)
+            {
+                DataOne one = new DataOne();
+                foreach (var val in SFS)
+                {
+                    SQLText = string.Format("Select SUM(PZYDMJ),SUM(YDZMJ),SUM(WJPZYDMJ),SUM(JZZMJ),SUM(JZZDMJ),SUM(WPZJZMJ),SUM(WPZJZZDMJ),SUM(TDDJMJ),SUM(DYMJ),SUM(CZQYSL),SUM(SFGXQY),SUM(CYRS),SUM(LJGDZCTZ),SUM(YDL2012),SUM(YDL2013),SUM(YDL2014),SUM(GSRKSS2012),SUM(GSRKSS2013),SUM(GSRKSS2014),SUM(DSRKSS2012),SUM(DSRKSS2013),SUM(DSRKSS2014),SUM(ZYYSR2012),SUM(ZYYSR2013),SUM(ZYYSR2014) from GYYD where XZJDMC='{0}' AND TDSYQK='1' AND SFGSQY='{1}'", region, val);
+                    ReadData(new string[] { SQLText });
+                    DataBase database = Translate(queue);
+                    switch (val)
+                    {
+                        case "是":
+                            one.Up = database;
+                            break;
+                        case "否":
+                            one.Down = database;
+                            break;
+                    }
+                }
+                RegionsDict.Add(region, one);
+                RegionSum = RegionSum + one;
+            }
+            #endregion
+
+            #region  获取  工业园
+            foreach (var terrace in Terraces)
+            {
+                DataOne one = new DataOne();
+                foreach (var val in SFS)
+                {
+                    if (terrace == "其他")
+                    {
+                        SQLText = string.Format("Select SUM(PZYDMJ),SUM(YDZMJ),SUM(WJPZYDMJ),SUM(JZZMJ),SUM(JZZDMJ),SUM(WPZJZMJ),SUM(WPZJZZDMJ),SUM(TDDJMJ),SUM(DYMJ),SUM(CZQYSL),SUM(SFGXQY),SUM(CYRS),SUM(LJGDZCTZ),SUM(YDL2012),SUM(YDL2013),SUM(YDL2014),SUM(GSRKSS2012),SUM(GSRKSS2013),SUM(GSRKSS2014),SUM(DSRKSS2012),SUM(DSRKSS2013),SUM(DSRKSS2014),SUM(ZYYSR2012),SUM(ZYYSR2013),SUM(ZYYSR2014) from GYYD where SFWYCYPT='否' AND TDSYQK='1' AND SFGSQY='{0}'", val);
+                    }
+                    else
+                    {
+                        SQLText = string.Format("Select SUM(PZYDMJ),SUM(YDZMJ),SUM(WJPZYDMJ),SUM(JZZMJ),SUM(JZZDMJ),SUM(WPZJZMJ),SUM(WPZJZZDMJ),SUM(TDDJMJ),SUM(DYMJ),SUM(CZQYSL),SUM(SFGXQY),SUM(CYRS),SUM(LJGDZCTZ),SUM(YDL2012),SUM(YDL2013),SUM(YDL2014),SUM(GSRKSS2012),SUM(GSRKSS2013),SUM(GSRKSS2014),SUM(DSRKSS2012),SUM(DSRKSS2013),SUM(DSRKSS2014),SUM(ZYYSR2012),SUM(ZYYSR2013),SUM(ZYYSR2014) from GYYD where CYPTMC Like '%{0}%' AND TDSYQK='1' AND SFGSQY='{1}'", terrace, val);
+                    }
+                   
+                    ReadData(new string[] { SQLText });
+                    DataBase database = Translate(queue);
+                    switch (val)
+                    {
+                        case "是":
+                            one.Up = database;
+                            break;
+                        case "否":
+                            one.Down = database;
+                            break;
+                    }
+                }
+                TerraceDict.Add(terrace, one);
+                TerraceSum = TerraceSum + one;
+            }
+            #endregion
+        }
         public void Working()
         {
             foreach (var region in Regions)

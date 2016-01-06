@@ -152,6 +152,12 @@ namespace DNA.Models
                 ZYYSR2014 = c1.ZYYSR2014 + c2.ZYYSR2014
             };
         }
+        public static DataBase operator /(DataBase c1, int a)
+        {
+            return new DataBase(){
+                //PZYDMJ
+            }
+        }
     }
 
     public enum Purpose

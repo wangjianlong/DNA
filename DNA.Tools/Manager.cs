@@ -17,6 +17,7 @@ namespace DNA.Tools
         {
             ModelExcelPath = System.Configuration.ConfigurationManager.AppSettings["EXCELS"].GetSourcesPath();
             WorkBook = ModelExcelPath.OperWorkbook();
+            SaveFilePath = SavePath;
         }
         public void Analyze()
         {
@@ -24,7 +25,8 @@ namespace DNA.Tools
             ISheet sheet = WorkBook.GetSheet(tool.SheetName);
             if (sheet != null)
             {
-                tool.Working();
+                tool.Doing();
+                //tool.Working();
                 tool.Write(ref sheet);
             }
             Save();

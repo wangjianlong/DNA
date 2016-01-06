@@ -15,9 +15,12 @@ namespace DNA.Tools
         public List<GYDW> List { get; set; }
         public Dictionary<string, Merge> Dict { get; set; }//地块编号->  地块信息
         public Dictionary<string, TempData> TempDict { get; set; }//企业编号->  有几块地  总共的建筑面积
+
+        public Dictionary<string, List<MergeBase>> MarginDict { get; set; }
         public MainTool()
         {
             Dict = new Dictionary<string, Merge>();
+            MarginDict = new Dictionary<string, List<MergeBase>>();
             StartRow = 1;
             StartCell = 0;
         }
@@ -190,7 +193,12 @@ namespace DNA.Tools
             var list=GetBase("Select QYBH from GYYD_YDDW Group By QYBH");
             foreach (var qybh in list)
             {
-                dict.Add(qybh, GetTwo(string.Format("Select SUM(JZMJ),COUNT(*) from GYYD_YDDW where QYBH='{0}'", qybh)));
+                var temp=GetTwo(string.Format("Select SUM(JZMJ),COUNT(*) from GYYD_YDDW where QYBH='{0}'", qybh));
+                dict.Add(qybh, temp);
+                if (temp.Count > 1&&!MarginDict.ContainsKey(qybh))
+                {
+                    MarginDict.Add(qybh, new List<MergeBase>());
+                }
             }
             return dict;
         }
@@ -230,7 +238,9 @@ namespace DNA.Tools
                     MergeBase margin = null;
                     if (TempDict.ContainsKey(gydw.QYBH))
                     {
+                        
                         var body = TempDict[gydw.QYBH];
+                        
                         if (body.merge == null)
                         {
                             TempDict[gydw.QYBH].merge = mergebase;
@@ -245,6 +255,18 @@ namespace DNA.Tools
                             margin = mergebase * gydw.Percent;
                             TempDict[gydw.QYBH].Reduce = body.Reduce+margin;
                         }
+
+                        if (MarginDict.ContainsKey(gydw.QYBH))
+                        {
+                            MarginDict[gydw.QYBH].Add(margin);
+                        }
+                        //else
+                        //{
+                        //    if (body.Count > 1)
+                        //    {
+                        //        MarginDict.Add(gydw.QYBH, new List<MergeBase>() { margin });
+                        //    }
+                        //}
                     }
                     if (margin != null)
                     {
@@ -274,7 +296,10 @@ namespace DNA.Tools
                 }
                 
             }
-            Console.WriteLine("成功");
+            //Console.WriteLine("成功");
+            Working();
+            BB();
+            Console.WriteLine("Success");
         }
 
 
@@ -309,6 +334,19 @@ namespace DNA.Tools
                 }
                 connection.Close();
             }
+            foreach (var item in list)
+            {
+                SQLText = string.Format("UPDATE GYYD SET JZRJQL={0},TZQDQL={1},SSCCQL={2},YYSSCCQL={3} where DKBH='{4}'", item.JZRJQL, item.TZQDQL, item.SSCCQL, item.YYSSCCQL, item.DKBH);
+                try
+                {
+                    ExecuteQuery(SQLText);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+            }
+            Console.WriteLine("成功");
 
         }
         
@@ -330,6 +368,37 @@ namespace DNA.Tools
             {
                 workbook.Write(fs);
             }
+        }
+
+        public void BB()
+        {
+            IWorkbook workbook = new HSSFWorkbook();
+            ISheet sheet = workbook.CreateSheet("CESHI");
+            int line = 1;
+            foreach (var key in MarginDict.Keys)
+            {
+                IRow row = sheet.CreateRow(line);
+                row.CreateCell(0).SetCellValue(key);
+                var values = MarginDict[key];
+                
+                foreach (var item in values)
+                {
+                    int cell = 1;
+                    System.Reflection.PropertyInfo[] propList = typeof(MergeBase).GetProperties();
+                    foreach (var pp in propList)
+                    {
+                        row.CreateCell(cell++).SetCellValue(pp.GetValue(item, null).ToString());
+                    }
+                    row = sheet.CreateRow(++line);
+                }
+                line++;
+            }
+            string filepath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "23.xls");
+            using (var fs = new FileStream(filepath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+            {
+                workbook.Write(fs);
+            }
+
         }
 
         public void Write(ref ISheet Sheet)

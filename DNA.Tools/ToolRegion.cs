@@ -15,8 +15,9 @@ namespace DNA.Tools
         {
             this.Regions = GetRegions();
             this.Terraces = GetTerraces();
-            CreateView = string.Format("Create View {0} As Select * from GYYD Inner Join YDDW On GYYD.QYBH=YDDW.QYBH where GYYD.YDZMJ=GYYD.YKFTDMJ", ViewName);
-            InitView();
+            this.Terraces.Add("其他");
+            //CreateView = string.Format("Create View {0} As Select * from GYYD Inner Join YDDW On GYYD.QYBH=YDDW.QYBH where GYYD.YDZMJ=GYYD.YKFTDMJ", ViewName);
+            //InitView();
         }
 
     }

@@ -102,7 +102,7 @@ namespace DNA
 
             string x = "3.65";
             string y = "3.65";
-            double a = double.Parse(x);
+            //double a = double.Parse(x);
             double b = double.Parse(y);
             Console.WriteLine(string.Format("a:{0}  b:{1}  a/b={2}", a, b, a / b));
             int temp = 1314;

@@ -14,7 +14,7 @@ namespace DNA.Models
         /// <summary>
         /// 从业人数
         /// </summary>
-        public double CYRS { get; set; }
+        public int CYRS { get; set; }
         /// <summary>
         /// 累计固定资产投资
         /// </summary>
@@ -100,7 +100,7 @@ namespace DNA.Models
                 LJGDZCTZ = c1.LJGDZCTZ - c2.LJGDZCTZ,
                 YDL2012 = c1.YDL2012 - c2.YDL2012,
                 YDL2013 = c1.YDL2013 - c2.YDL2013,
-                YDL2014 = c1.YDL2014 = c2.YDL2014,
+                YDL2014 = c1.YDL2014 - c2.YDL2014,
                 GSRKSS2012 = c1.GSRKSS2012 - c2.GSRKSS2012,
                 GSRKSS2013 = c1.GSRKSS2013 - c2.GSRKSS2013,
                 GSRKSS2014 = c1.GSRKSS2014 - c2.GSRKSS2014,
@@ -118,7 +118,7 @@ namespace DNA.Models
         {
             return new MergeBase()
             {
-                CYRS = c1.CYRS * a,
+                CYRS = (int)(((double)c1.CYRS) * a),
                 LJGDZCTZ = c1.LJGDZCTZ * a,
                 YDL2012 = c1.YDL2012 * a,
                 YDL2013 = c1.YDL2013 * a,

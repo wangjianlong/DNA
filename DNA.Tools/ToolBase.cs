@@ -51,7 +51,7 @@ namespace DNA.Tools
                         string[] array = str.Split('|');
                         foreach (var item in array)
                         {
-                            if (!list.Contains(item.Trim()))
+                            if (!list.Contains(item.Trim())&&!string.IsNullOrEmpty(item.Trim()))
                             {
                                 list.Add(item.Trim());
                             }
@@ -83,7 +83,7 @@ namespace DNA.Tools
         }
         protected List<string> GetRegions()
         {
-            return GetBase("Select XZJDMC from YDDW Group By XZJDMC");
+            return GetBase("Select XZJDMC from GYYD Group By XZJDMC");
         }
         protected List<string> GetTerraces()
         {
@@ -197,14 +197,37 @@ namespace DNA.Tools
                     {
                         continue;
                     }
-                    if (item.PropertyType.Equals(typeof(double)))
+                    var str = queue.Dequeue();
+                    if (!string.IsNullOrEmpty(str))
                     {
-                        item.SetValue(database, double.Parse(queue.Dequeue()), null);
+                        if (item.PropertyType.Equals(typeof(double)))
+                        {
+                            double val = 0.0;
+                            if (double.TryParse(str, out val))
+                            {
+                                item.SetValue(database, val, null);
+                            }
+                            else
+                            {
+                                Console.WriteLine(str);
+                            }
+                            
+                        }
+                        else if (item.PropertyType.Equals(typeof(int)))
+                        {
+                            int m = 0;
+                            if (int.TryParse(str, out m))
+                            {
+                                item.SetValue(database, m, null);
+                            }
+                            else
+                            {
+                                Console.WriteLine(str);
+                            }
+                            
+                        }
                     }
-                    else if (item.PropertyType.Equals(typeof(int)))
-                    {
-                        item.SetValue(database, int.Parse(queue.Dequeue()), null);
-                    }
+                    
                 }
             }
             return database;
