@@ -9,6 +9,7 @@ namespace DNA.Models
     {
         public AreaBase AreaBase { get; set; }
         public AreaOne AreaOne { get; set; }
+       
 
     }
 }

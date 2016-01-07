@@ -32,6 +32,10 @@ namespace DNA.Tools
             DropView = string.Format("Drop View {0}", ViewName);
             queue = new Queue<string>();
         }
+        public  virtual void Init(string mdbFilePath)
+        {
+            ConnectionString = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0}", mdbFilePath);
+        }
 
         protected List<string> GetBase(string SQLCommandText)
         {

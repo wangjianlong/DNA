@@ -33,6 +33,19 @@ namespace DNA.Helper
             }
             return FilePath;
         }
+
+        public static string OperFile(string Title, string Filter)
+        {
+            string filePath = string.Empty;
+            OpenFileDialog openfileDialog = new OpenFileDialog();
+            openfileDialog.Title = Title;
+            openfileDialog.Filter = Filter;
+            if (openfileDialog.ShowDialog() == DialogResult.OK)
+            {
+                filePath = openfileDialog.FileName;
+            }
+            return filePath;
+        }
         public static string GetSourcesPath(this string FileName)
         {
             return System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, PathBase, FileName);

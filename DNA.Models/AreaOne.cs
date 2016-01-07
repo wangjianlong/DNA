@@ -41,6 +41,14 @@ namespace DNA.Models
         /// 未批准建筑占地面积
         /// </summary>
         public double WPZJZZDMJ { get; set; }
+        /// <summary>
+        /// 是否位于产业平台
+        /// </summary>
+        public bool SFWYCYPT { get; set; }
+        /// <summary>
+        /// 产业平台名称
+        /// </summary>
+        public string CYPTMC { get; set; }
         public static AreaOne operator *(AreaOne c1, double a)
         {
             return new AreaOne()
@@ -50,7 +58,9 @@ namespace DNA.Models
                 JZZMJ = c1.JZZMJ * a,
                 JZZDMJ = c1.JZZDMJ * a,
                 WPZJZMJ = c1.WPZJZMJ * a,
-                WPZJZZDMJ = c1.WPZJZZDMJ * a
+                WPZJZZDMJ = c1.WPZJZZDMJ * a,
+                SFWYCYPT=c1.SFWYCYPT,
+                CYPTMC=c1.CYPTMC
             };
         }
         public static AreaOne operator /(AreaOne c1, double a)

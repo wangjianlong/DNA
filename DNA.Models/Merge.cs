@@ -37,6 +37,23 @@ namespace DNA.Models
         public string HYLB { get; set; }
         public string HYDM { get; set; }
     }
+    public class PotentialBase
+    {
+        public double JZRJQL { get; set; }
+        public double TZQDQL { get; set; }
+        public double SSCCQL { get; set; }
+        public double YYSSCCQL { get; set; }
+        public static PotentialBase operator +(PotentialBase c1, PotentialBase c2)
+        {
+            return new PotentialBase()
+            {
+                JZRJQL = c1.JZRJQL + c2.JZRJQL,
+                TZQDQL = c1.TZQDQL + c2.TZQDQL,
+                SSCCQL = c1.SSCCQL + c2.SSCCQL,
+                YYSSCCQL = c1.YYSSCCQL + c2.YYSSCCQL
+            };
+        }
+    }
 
     public class Potential
     {
@@ -115,6 +132,20 @@ namespace DNA.Models
             {
                 return SFGSQY ? (ZYYSL * 15 - ZYYSR2014 / (YDZMJ / 10000)) / (ZYYSL * 15) * YDZMJ / 10000 : 0;
             }
+        }
+    }
+
+    public class PotentialFive
+    {
+        public PotentialBase Up { get; set; }
+        public PotentialBase Down { get; set; }
+        public static PotentialFive operator +(PotentialFive c1, PotentialFive c2)
+        {
+            return new PotentialFive()
+            {
+                Up = c1.Up + c2.Up,
+                Down = c1.Down + c2.Down
+            };
         }
     }
 }

@@ -13,11 +13,16 @@ namespace DNA.Tools
 
         public ToolRegion()
         {
+           
+            //CreateView = string.Format("Create View {0} As Select * from GYYD Inner Join YDDW On GYYD.QYBH=YDDW.QYBH where GYYD.YDZMJ=GYYD.YKFTDMJ", ViewName);
+            //InitView();
+        }
+        public override void Init(string mdbFilePath)
+        {
+            base.Init(mdbFilePath);
             this.Regions = GetRegions();
             this.Terraces = GetTerraces();
             this.Terraces.Add("其他");
-            //CreateView = string.Format("Create View {0} As Select * from GYYD Inner Join YDDW On GYYD.QYBH=YDDW.QYBH where GYYD.YDZMJ=GYYD.YKFTDMJ", ViewName);
-            //InitView();
         }
 
     }

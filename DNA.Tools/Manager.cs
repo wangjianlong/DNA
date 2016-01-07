@@ -13,17 +13,21 @@ namespace DNA.Tools
         private string ModelExcelPath { get; set; }
         public IWorkbook WorkBook { get; set; }
         public string SaveFilePath { get; set; }
-        public Manager(string SavePath)
+        private string MdbFilePath { get; set; }
+        public Manager(string SavePath,string MdbFilePath)
         {
             ModelExcelPath = System.Configuration.ConfigurationManager.AppSettings["EXCELS"].GetSourcesPath();
             WorkBook = ModelExcelPath.OperWorkbook();
             SaveFilePath = SavePath;
+            this.MdbFilePath = MdbFilePath;
         }
         public void Analyze()
         {
-            MergeTool mergetool = new MergeTool();
+            MainTool maintool = new MainTool(MdbFilePath);
+            maintool.Doing();
+            MergeTool mergetool = new MergeTool(MdbFilePath);
             mergetool.Working();
-            ToolOne tool = new ToolOne();
+            ToolOne tool = new ToolOne(MdbFilePath);
             ISheet sheet = WorkBook.GetSheet(tool.SheetName);
             if (sheet != null)
             {
@@ -36,13 +40,13 @@ namespace DNA.Tools
         }
         public void Analyze2()
         {
-            MainTool mainTool = new MainTool();
-            ISheet sheet = WorkBook.CreateSheet("ceshi");
-            if (sheet != null)
-            {
-                mainTool.Doing();
-               // mainTool.Write(ref sheet);
-            }
+            //MainTool mainTool = new MainTool();
+            //ISheet sheet = WorkBook.CreateSheet("ceshi");
+            //if (sheet != null)
+            //{
+            //    mainTool.Doing();
+            //   // mainTool.Write(ref sheet);
+            //}
         }
 
         public void Save()

@@ -10,8 +10,9 @@ namespace DNA.Tools
         public List<TDSJYTJG> List { get; set; }
         public Dictionary<string, ChangePurpose> Dict { get; set; }
         public ChangePurpose Sum { get; set; }
-        public ToolFour()
+        public ToolFour(string mdbFilePath)
         {
+            Init(mdbFilePath);
             Dict = new Dictionary<string, ChangePurpose>();
             List = GetData();
             Sum = new ChangePurpose();

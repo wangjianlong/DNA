@@ -12,7 +12,7 @@ namespace DNA.Tools
 
         public Dictionary<int, DataOne> Dict { get; set; }
         public DataOne Sum { get; set; }
-        public ToolTwo()
+        public ToolTwo(string mdbFilePath)
         {
             Dict = new Dictionary<int, DataOne>();
             Sum = new DataOne()
@@ -23,6 +23,7 @@ namespace DNA.Tools
             StartRow = 4;
             StartCell = 2;
             StartRow2 = 66;
+            Init(mdbFilePath);
         }
         public void Working()
         {
@@ -32,9 +33,9 @@ namespace DNA.Tools
                 foreach (var val in SFS)
                 {
                     ReadData(new string[]{
-                        string.Format("Select SUM(GYYD.PZYDMJ),SUM(YDDW.TDZMJ),SUM(GYYD.YDZMJ),SUM(GYYD.JZZMJ),SUM(GYYD.JZZDMJ),SUM(GYYD.WPZJZMJ),SUM(GYYD.WPZJZZDMJ),SUM(GYYD.TDDJMJ),SUM(GYYD.DYMJ),SUM(GYYD.CZQYSL) from {0} where GYYD.HYDM Like '{1}__' AND YDDW.SFGSQY={2}", ViewName, type, val),
-                        string.Format("Select COUNT(*) from YDDW where SFGXQY=是 AND HYDM Like '{0}__' AND SFGSQY={1}", type, val),
-                        string.Format("Select SUM(CYRS),SUM(LJGDZCTZ),SUM(YDL2012),SUM(YDL2013),SUM(YDL2014),SUM(GSRKSS2012),SUM(GSRKSS2013),SUM(GSRKSS2014),SUM(DSRKSS2012),SUM(DSRKSS2013),SUM(DSRKSS2014),SUM(ZYYSR2012),SUM(ZYYSR2013),SUM(ZYYSR2014) from YDDW where  HYDM Like '{0}__' AND SFGSQY={1}", type, val)
+                        string.Format("Select SUM(PZYDMJ),SUM(TDZMJ),SUM(YDZMJ),SUM(JZZMJ),SUM(JZZDMJ),SUM(WPZJZMJ),SUM(WPZJZZDMJ),SUM(TDDJMJ),SUM(DYMJ),SUM(CZQYSL) from GYYD_YDDW where HYDM='{0}' AND SFGSQY='{1}'",type, val),
+                        string.Format("Select COUNT(*) from GYYD_YDDW where SFGXQY='是' AND HYDM='{0}' AND SFGSQY='{1}'", type, val),
+                        string.Format("Select SUM(CYRS),SUM(LJGDZCTZ),SUM(YDL2012),SUM(YDL2013),SUM(YDL2014),SUM(GSRKSS2012),SUM(GSRKSS2013),SUM(GSRKSS2014),SUM(DSRKSS2012),SUM(DSRKSS2013),SUM(DSRKSS2014),SUM(ZYYSR2012),SUM(ZYYSR2013),SUM(ZYYSR2014) from GYYD_YDDW where  HYDM='{0}' AND SFGSQY='{1}'", type, val)
                     });
                     DataBase database = Translate(queue);
                     switch (val)

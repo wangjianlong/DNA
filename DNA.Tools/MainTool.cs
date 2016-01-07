@@ -16,12 +16,13 @@ namespace DNA.Tools
         public Dictionary<string, Merge> Dict { get; set; }//地块编号->  地块信息
         public Dictionary<string, TempData> TempDict { get; set; }//企业编号->  有几块地  总共的建筑面积
         public Dictionary<string, List<MergeBase>> MarginDict { get; set; }
-        public MainTool()
+        public MainTool(string mdbFilePath)
         {
             Dict = new Dictionary<string, Merge>();
             MarginDict = new Dictionary<string, List<MergeBase>>();
             StartRow = 1;
             StartCell = 0;
+            Init(mdbFilePath);
         }
         protected MergeBase Translate(Queue<string> queue,int ValCount,bool Flag=false)
         {
@@ -36,48 +37,52 @@ namespace DNA.Tools
                     {
                         continue;
                     }
-                    temp = queue.Dequeue();
-                    if (!string.IsNullOrEmpty(temp))
+                    if (queue.Count > 0)
                     {
-                        if (item.PropertyType.Equals(typeof(double)))
+                        temp = queue.Dequeue();
+                        if (!string.IsNullOrEmpty(temp))
                         {
-                            double val;
-                            if (double.TryParse(temp, out val))
+                            if (item.PropertyType.Equals(typeof(double)))
                             {
-                                item.SetValue(database, val, null);
+                                double val;
+                                if (double.TryParse(temp, out val))
+                                {
+                                    item.SetValue(database, val, null);
+                                }
+                                else
+                                {
+                                    Console.WriteLine(temp);
+                                }
+
                             }
-                            else
+                            else if (item.PropertyType.Equals(typeof(int)))
                             {
-                                Console.WriteLine(temp);
+                                int m = 0;
+                                if (int.TryParse(temp, out m))
+                                {
+                                    item.SetValue(database, m, null);
+                                }
+                                else
+                                {
+                                    Console.WriteLine(temp);
+                                }
+
                             }
-                            
-                        }
-                        else if (item.PropertyType.Equals(typeof(int)))
-                        {
-                            int m = 0;
-                            if (int.TryParse(temp, out m))
+                            else if (item.PropertyType.Equals(typeof(bool)) && !Flag)
                             {
-                                item.SetValue(database, m, null);
-                            }
-                            else
-                            {
-                                Console.WriteLine(temp);
-                            }
-                            
-                        }
-                        else if (item.PropertyType.Equals(typeof(bool)) && !Flag)
-                        {
-                            switch (temp)
-                            {
-                                case "是":
-                                    item.SetValue(database, true, null);
-                                    break;
-                                case "否":
-                                    item.SetValue(database, false, null);
-                                    break;
+                                switch (temp)
+                                {
+                                    case "是":
+                                        item.SetValue(database, true, null);
+                                        break;
+                                    case "否":
+                                        item.SetValue(database, false, null);
+                                        break;
+                                }
                             }
                         }
                     }
+                   
 
                 }
             }
@@ -295,7 +300,7 @@ namespace DNA.Tools
             }
             //Console.WriteLine("成功");
             Working();
-            BB();
+            //BB();
             Console.WriteLine("Success");
         }
         public void Working()

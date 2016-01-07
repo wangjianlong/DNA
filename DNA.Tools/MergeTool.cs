@@ -12,11 +12,14 @@ namespace DNA.Tools
         public Dictionary<string, Union> AreaDict { get; set; }//地块编号  批准用地面积 土地登记面积  抵押土地面积  总面积等等
         public Dictionary<string, string> WayDict { get; set; }//地块编号   实际用途  
         public Dictionary<string,MergeBase> FacDict { get; set; }
-        public MergeTool()
+        public Dictionary<string, int> NumberDict { get; set; }//地块编号   该地块上的企业数量
+        public MergeTool(string mdbFilePath)
         {
             AreaDict = new Dictionary<string, Union>();
             WayDict = new Dictionary<string, string>();
             FacDict = new Dictionary<string, MergeBase>();
+            NumberDict = new Dictionary<string, int>();
+            Init(mdbFilePath);
         }
 
         public void InitM()
@@ -26,7 +29,7 @@ namespace DNA.Tools
                 connection.Open();
                 using (OleDbCommand Command = connection.CreateCommand())
                 {
-                    Command.CommandText = "Select DKBH,PZYDMJ,TDDJMJ,DYMJ,YDZMJ,WJPZYDMJ,JZZMJ,JZZDMJ,WPZJZMJ,WPZJZZDMJ from GYYD";
+                    Command.CommandText = "Select DKBH,PZYDMJ,TDDJMJ,DYMJ,YDZMJ,WJPZYDMJ,JZZMJ,JZZDMJ,WPZJZMJ,WPZJZZDMJ,SFWYCYPT,CYPTMC from GYYD";
                     using (var reader = Command.ExecuteReader())
                     {
                         string DKBH = string.Empty;
@@ -50,7 +53,9 @@ namespace DNA.Tools
                                         JZZMJ = double.Parse(reader[6].ToString()),
                                         JZZDMJ = double.Parse(reader[7].ToString()),
                                         WPZJZMJ = double.Parse(reader[8].ToString()),
-                                        WPZJZZDMJ = double.Parse(reader[9].ToString())
+                                        WPZJZZDMJ = double.Parse(reader[9].ToString()),
+                                        SFWYCYPT = reader[10].ToString() == "是" ? true : false,
+                                        CYPTMC = reader[11].ToString()
                                     }
                                 });
                             }
@@ -121,6 +126,20 @@ namespace DNA.Tools
                             }
                         }
                     }
+                    Command.CommandText = "Select DKBH,COUNT(*) from GYYD_YDDW Group By DKBH";
+                    using (var reader = Command.ExecuteReader())
+                    {
+                        string DKBH = string.Empty;
+                        int val = 0;
+                        while (reader.Read())
+                        {
+                            DKBH = reader[0].ToString();
+                            if (!string.IsNullOrEmpty(DKBH) && !NumberDict.ContainsKey(DKBH))
+                            {
+                                NumberDict.Add(DKBH, int.TryParse(reader[1].ToString(), out val) ? val : 0);
+                            }
+                        }
+                    }
                    
                    
                 }
@@ -176,16 +195,59 @@ namespace DNA.Tools
                         {
                             commandText += " SJYT='" + WayDict[item.DKBH]+"',";
                         }
+                        AreaOne one = null;
                         if (AreaDict.ContainsKey(item.DKBH))
                         {
-                            var one = AreaDict[item.DKBH].AreaOne;
-                            one = one * (item.JZMJ / one.JZZMJ);
-                            commandText += string.Format(" YDZMJ={0},WJPZYDMJ={1},JZZMJ={2},JZZDMJ={3},WPZJZMJ={4},WPZJZZDMJ={5},CZQYSL=1,", one.YDZMJ, one.WJPZYDMJ, one.JZZMJ, one.JZZDMJ, one.WPZJZMJ, one.WPZJZZDMJ);
+                            one = AreaDict[item.DKBH].AreaOne;
+                            var percent = item.JZMJ / one.JZZMJ;
+                            if (double.IsNaN(percent))
+                            {
+                                if (NumberDict.ContainsKey(item.DKBH))
+                                {
+                                    percent = ((double)1) / ((double)NumberDict[item.DKBH]);
+                                }
+                                else
+                                {
+                                    percent = .0;
+                                }
+                                
+                            }
+                            one = one * percent;
+                            //commandText += string.Format(" YDZMJ={0},WJPZYDMJ={1},JZZMJ={2}", one.YDZMJ,one.WJPZYDMJ,one.JZZMJ);
+                            commandText += string.Format(" YDZMJ={0},WJPZYDMJ={1},JZZDMJ={2},WPZJZMJ={3},WPZJZZDMJ={4},CZQYSL=1,JZZMJ={5},SFWYCYPT='{6}',CYPTMC='{7}',",
+                                one.YDZMJ, one.WJPZYDMJ, one.JZZDMJ, one.WPZJZMJ, one.WPZJZZDMJ, one.JZZMJ, one.SFWYCYPT ? "是" : "否", one.CYPTMC);
                         }
                         if (FacDict.ContainsKey(item.QYBH))
                         {
                             var fac = FacDict[item.QYBH];
-                            fac = fac * item.Percent;
+                            if (TempDict.ContainsKey(item.QYBH))
+                            {
+                                var body = TempDict[item.QYBH];
+                                if (body.merge == null)
+                                {
+                                    TempDict[item.QYBH].merge = fac;
+                                }
+
+                                if (body.Count == 1)
+                                {
+                                    fac = body.merge - body.Reduce;
+                                }
+                                else
+                                {
+                                    TempDict[item.QYBH].Count--;
+                                    fac = fac * item.Percent;
+                                    TempDict[item.QYBH].Reduce = body.Reduce + fac;
+
+                                }
+                            }
+                            else
+                            {
+                                fac = fac * item.Percent;
+                            }
+                           
+                            //commandText += string.Format(" SFGXQY='{0}',SFGSQY='{1}',CYRS={2},HYDM='{3}'",
+                            //    fac.SFGXQY ? "是" : "否", fac.SFGSQY ? "是" : "否", fac.CYRS,fac.HYDM
+                            //    );
                             commandText += string.Format(" SFGXQY='{0}',HYDM='{1}',XZQMC='{2}',SFGSQY='{3}',CYRS={4},LJGDZCTZ={5},YDL2012={6},YDL2013={7},YDL2014={8},GSRKSS2012={9},GSRKSS2013={10},GSRKSS2014={11},DSRKSS2012={12},DSRKSS2013={13},DSRKSS2014={14},ZYYSR2012={15},ZYYSR2013={16},ZYYSR2014={17}",
                                 fac.SFGXQY ? "是" : "否", fac.HYDM, fac.XZJDMC, fac.SFGSQY ? "是" : "否", fac.CYRS, fac.LJGDZCTZ, fac.YDL2012, fac.YDL2013, fac.YDL2014, fac.GSRKSS2012, fac.GSRKSS2013, fac.GSRKSS2014, fac.DSRKSS2012, fac.DSRKSS2013, fac.DSRKSS2014, fac.ZYYSR2012, fac.ZYYSR2013, fac.ZYYSR2014
                                 );
@@ -195,7 +257,7 @@ namespace DNA.Tools
                         {
                             Command.CommandText = commandText;
                             Command.ExecuteNonQuery();
-                            Console.WriteLine("成功");
+                            Console.WriteLine("成功2");
                         }
                         catch (Exception ex)
                         {

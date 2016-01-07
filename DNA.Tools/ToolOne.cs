@@ -8,7 +8,7 @@ using System.Text;
 
 namespace DNA.Tools
 {
-    public class ToolOne:ToolRegion,ITool
+    public class ToolOne : ToolRegion, ITool
     {
         /// <summary>
         /// 根据区域
@@ -18,7 +18,7 @@ namespace DNA.Tools
         public string TempView2 { get; set; }
         public DataOne RegionSum { get; set; }
         public DataOne TerraceSum { get; set; }
-        public ToolOne()
+        public ToolOne(string mdbFilePath)
         {
             RegionsDict = new Dictionary<string, DataOne>();
             TerraceDict = new Dictionary<string, DataOne>();
@@ -38,6 +38,7 @@ namespace DNA.Tools
             ValCount = 25;
             TempView2 = "TEMPVIEW2";
             SheetName = "表1";
+            Init(mdbFilePath);
         }
 
         public void Doing()
@@ -48,9 +49,15 @@ namespace DNA.Tools
                 DataOne one = new DataOne();
                 foreach (var val in SFS)
                 {
-                    SQLText = string.Format("Select SUM(PZYDMJ),SUM(YDZMJ),SUM(WJPZYDMJ),SUM(JZZMJ),SUM(JZZDMJ),SUM(WPZJZMJ),SUM(WPZJZZDMJ),SUM(TDDJMJ),SUM(DYMJ),SUM(CZQYSL),SUM(SFGXQY),SUM(CYRS),SUM(LJGDZCTZ),SUM(YDL2012),SUM(YDL2013),SUM(YDL2014),SUM(GSRKSS2012),SUM(GSRKSS2013),SUM(GSRKSS2014),SUM(DSRKSS2012),SUM(DSRKSS2013),SUM(DSRKSS2014),SUM(ZYYSR2012),SUM(ZYYSR2013),SUM(ZYYSR2014) from GYYD where XZJDMC='{0}' AND TDSYQK='1' AND SFGSQY='{1}'", region, val);
-                    ReadData(new string[] { SQLText });
-                    DataBase database = Translate(queue);
+                    //SQLText = string.Format("Select SUM(PZYDMJ),SUM(YDZMJ),SUM(WJPZYDMJ),SUM(JZZMJ),SUM(JZZDMJ),SUM(WPZJZMJ),SUM(WPZJZZDMJ),SUM(TDDJMJ),SUM(DYMJ),SUM(CZQYSL),SUM(SFGXQY),SUM(CYRS),SUM(LJGDZCTZ),SUM(YDL2012),SUM(YDL2013),SUM(YDL2014),SUM(GSRKSS2012),SUM(GSRKSS2013),SUM(GSRKSS2014),SUM(DSRKSS2012),SUM(DSRKSS2013),SUM(DSRKSS2014),SUM(ZYYSR2012),SUM(ZYYSR2013),SUM(ZYYSR2014) from GYYD where XZJDMC='{0}' AND TDSYQK='1' AND SFGSQY='{1}'", region, val);
+                    //ReadData(new string[] { SQLText });
+
+                    ReadData(new string[]{
+                        string.Format("Select SUM(PZYDMJ),SUM(YDZMJ),SUM(WJPZYDMJ),SUM(JZZMJ),SUM(JZZDMJ),SUM(WPZJZMJ),SUM(WPZJZZDMJ),SUM(TDDJMJ),SUM(DYMJ),SUM(CZQYSL) from GYYD_YDDW where XZQMC='{0}' AND TDSYQK='1' AND SFGSQY='{1}'", region, val),
+                        string.Format("Select Count(*) from GYYD where XZQMC='{0}' AND TDSYQK='1' AND SFGSQY='{1}' AND SFGXQY='是'", region, val),
+                        string.Format("Select SUM(CYRS),SUM(LJGDZCTZ),SUM(YDL2012),SUM(YDL2013),SUM(YDL2014),SUM(GSRKSS2012),SUM(GSRKSS2013),SUM(GSRKSS2014),SUM(DSRKSS2012),SUM(DSRKSS2013),SUM(DSRKSS2014),SUM(ZYYSR2012),SUM(ZYYSR2013),SUM(ZYYSR2014) from GYYD_YDDW where XZQMC='{0}' AND TDSYQK='1' AND SFGSQY='{1}'",region,val)
+                    });
+                    var database = Translate(queue);
                     switch (val)
                     {
                         case "是":
@@ -72,16 +79,24 @@ namespace DNA.Tools
                 DataOne one = new DataOne();
                 foreach (var val in SFS)
                 {
+                    string str = string.Empty;
                     if (terrace == "其他")
                     {
-                        SQLText = string.Format("Select SUM(PZYDMJ),SUM(YDZMJ),SUM(WJPZYDMJ),SUM(JZZMJ),SUM(JZZDMJ),SUM(WPZJZMJ),SUM(WPZJZZDMJ),SUM(TDDJMJ),SUM(DYMJ),SUM(CZQYSL),SUM(SFGXQY),SUM(CYRS),SUM(LJGDZCTZ),SUM(YDL2012),SUM(YDL2013),SUM(YDL2014),SUM(GSRKSS2012),SUM(GSRKSS2013),SUM(GSRKSS2014),SUM(DSRKSS2012),SUM(DSRKSS2013),SUM(DSRKSS2014),SUM(ZYYSR2012),SUM(ZYYSR2013),SUM(ZYYSR2014) from GYYD where SFWYCYPT='否' AND TDSYQK='1' AND SFGSQY='{0}'", val);
+                        str = string.Format("from GYYD_YDDW where SFWYCYPT='否' AND TDSYQK='1' AND SFGSQY='{0}'", val);
+                        //SQLText = string.Format("Select SUM(PZYDMJ),SUM(YDZMJ),SUM(WJPZYDMJ),SUM(JZZMJ),SUM(JZZDMJ),SUM(WPZJZMJ),SUM(WPZJZZDMJ),SUM(TDDJMJ),SUM(DYMJ),SUM(CZQYSL),SUM(SFGXQY),SUM(CYRS),SUM(LJGDZCTZ),SUM(YDL2012),SUM(YDL2013),SUM(YDL2014),SUM(GSRKSS2012),SUM(GSRKSS2013),SUM(GSRKSS2014),SUM(DSRKSS2012),SUM(DSRKSS2013),SUM(DSRKSS2014),SUM(ZYYSR2012),SUM(ZYYSR2013),SUM(ZYYSR2014) from GYYD where SFWYCYPT='否' AND TDSYQK='1' AND SFGSQY='{0}'", val);
                     }
                     else
                     {
-                        SQLText = string.Format("Select SUM(PZYDMJ),SUM(YDZMJ),SUM(WJPZYDMJ),SUM(JZZMJ),SUM(JZZDMJ),SUM(WPZJZMJ),SUM(WPZJZZDMJ),SUM(TDDJMJ),SUM(DYMJ),SUM(CZQYSL),SUM(SFGXQY),SUM(CYRS),SUM(LJGDZCTZ),SUM(YDL2012),SUM(YDL2013),SUM(YDL2014),SUM(GSRKSS2012),SUM(GSRKSS2013),SUM(GSRKSS2014),SUM(DSRKSS2012),SUM(DSRKSS2013),SUM(DSRKSS2014),SUM(ZYYSR2012),SUM(ZYYSR2013),SUM(ZYYSR2014) from GYYD where CYPTMC Like '%{0}%' AND TDSYQK='1' AND SFGSQY='{1}'", terrace, val);
+                        str = string.Format("from GYYD_YDDW where CYPTMC Like '%{0}%' AND TDSYQK='1' AND SFGSQY='{1}",terrace, val);
+                        //SQLText = string.Format("Select SUM(PZYDMJ),SUM(YDZMJ),SUM(WJPZYDMJ),SUM(JZZMJ),SUM(JZZDMJ),SUM(WPZJZMJ),SUM(WPZJZZDMJ),SUM(TDDJMJ),SUM(DYMJ),SUM(CZQYSL),SUM(SFGXQY),SUM(CYRS),SUM(LJGDZCTZ),SUM(YDL2012),SUM(YDL2013),SUM(YDL2014),SUM(GSRKSS2012),SUM(GSRKSS2013),SUM(GSRKSS2014),SUM(DSRKSS2012),SUM(DSRKSS2013),SUM(DSRKSS2014),SUM(ZYYSR2012),SUM(ZYYSR2013),SUM(ZYYSR2014) from GYYD where CYPTMC Like '%{0}%' AND TDSYQK='1' AND SFGSQY='{1}'", terrace, val);
                     }
                    
-                    ReadData(new string[] { SQLText });
+                    //ReadData(new string[] { SQLText });
+                    ReadData(new string[]{
+                        string.Format("Select SUM(PZYDMJ),SUM(YDZMJ),SUM(WJPZYDMJ),SUM(JZZMJ),SUM(JZZDMJ),SUM(WPZJZMJ),SUM(WPZJZZDMJ),SUM(TDDJMJ),SUM(DYMJ),SUM(CZQYSL) {0}",str),
+                        string.Format("Select Count(*) {0} AND SFGXQY='是'",str),
+                        string.Format("Select SUM(CYRS),SUM(LJGDZCTZ),SUM(YDL2012),SUM(YDL2013),SUM(YDL2014),SUM(GSRKSS2012),SUM(GSRKSS2013),SUM(GSRKSS2014),SUM(DSRKSS2012),SUM(DSRKSS2013),SUM(DSRKSS2014),SUM(ZYYSR2012),SUM(ZYYSR2013),SUM(ZYYSR2014) {0}",str)
+                    });
                     DataBase database = Translate(queue);
                     switch (val)
                     {
@@ -162,11 +177,11 @@ namespace DNA.Tools
             var list = GetBase(SQLCommandText);
             foreach (var qybh in list)
             {
-                 
+
             }
         }
 
-       
+
         public void Write(ref ISheet Sheet)
         {
             foreach (var region in RegionsDict.Keys)
@@ -188,7 +203,7 @@ namespace DNA.Tools
             WriteBase(TerraceSum.Up, Sheet, 32, StartCell);
             WriteBase(TerraceSum.Down, Sheet, 33, StartCell);
         }
-        
+
 
     }
 }

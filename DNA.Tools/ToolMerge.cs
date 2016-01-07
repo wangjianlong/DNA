@@ -15,11 +15,11 @@ namespace DNA.Tools
         {
             this.GYDWList = new List<GYDW>();
             this.TempDict = new Dictionary<string, TempData>();
-            Init();
+            //Init();
         }
-
-        public void Init()
+        public override void Init(string mdbFilePath)
         {
+            base.Init(mdbFilePath);
             using (OleDbConnection connection = new OleDbConnection(ConnectionString))
             {
                 connection.Open();
@@ -51,7 +51,7 @@ namespace DNA.Tools
                                     TempDict.Add(QYBH, new TempData() { Sum = double.Parse(reader[0].ToString()), Count = int.Parse(reader[1].ToString()) });
                                 }
                             }
-                           
+
                         }
                     }
                     list.Clear();
@@ -105,7 +105,7 @@ namespace DNA.Tools
                             }
                         }
                     }
-                   
+
                 }
                 connection.Close();
             }

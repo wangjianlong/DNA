@@ -14,7 +14,7 @@ namespace DNA.Tools
         public Dictionary<string, AParcel> TerraceDict { get; set; }
         public AParcel RegionSum { get; set; }
         public AParcel TerraceSum { get; set; }
-        public ToolThree()
+        public ToolThree(string mdbFilePath)
         {
             ParcelDict = new Dictionary<string, AParcel>();
             TerraceDict = new Dictionary<string, AParcel>();
@@ -34,6 +34,7 @@ namespace DNA.Tools
             StartRow = 5;
             StartCell = 2;
             StartRow2 = 23;
+            Init(mdbFilePath);
         }
         public void Working()
         {

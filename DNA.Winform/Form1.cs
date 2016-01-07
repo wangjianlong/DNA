@@ -14,6 +14,7 @@ namespace DNA.Winform
     public partial class Form1 : Form
     {
         private string FilePath { get; set; }
+        private string MdbPath { get; set; }
         public Form1()
         {
             InitializeComponent();
@@ -29,10 +30,24 @@ namespace DNA.Winform
         private void StartBtn_Click(object sender, EventArgs e)
         {
             
-            if (!string.IsNullOrEmpty(this.FilePath))
+            if (!string.IsNullOrEmpty(this.FilePath)&&!string.IsNullOrEmpty(MdbPath))
             {
-                Manager manager = new Manager(this.FilePath);
+                Manager manager = new Manager(this.FilePath,MdbPath);
                 manager.Analyze();
+                MessageBox.Show("生成成功！");
+            }
+            else
+            {
+                MessageBox.Show("请指定Mdb文件路径以及结果表格输出路径");
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            MdbPath = FileHelper.OperFile("请指定Access数据库文件路径", "Access 数据库(*.mdb)|*.mdb");
+            if (!string.IsNullOrEmpty(MdbPath))
+            {
+                this.textBox2.Text = MdbPath;
             }
         }
     }
