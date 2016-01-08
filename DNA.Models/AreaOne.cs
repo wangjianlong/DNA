@@ -49,6 +49,10 @@ namespace DNA.Models
         /// 产业平台名称
         /// </summary>
         public string CYPTMC { get; set; }
+        /// <summary>
+        /// 土地使用情况
+        /// </summary>
+        public string TDSYQK { get; set; }
         public static AreaOne operator *(AreaOne c1, double a)
         {
             return new AreaOne()
@@ -60,7 +64,8 @@ namespace DNA.Models
                 WPZJZMJ = c1.WPZJZMJ * a,
                 WPZJZZDMJ = c1.WPZJZZDMJ * a,
                 SFWYCYPT=c1.SFWYCYPT,
-                CYPTMC=c1.CYPTMC
+                CYPTMC=c1.CYPTMC,
+                TDSYQK=c1.TDSYQK
             };
         }
         public static AreaOne operator /(AreaOne c1, double a)

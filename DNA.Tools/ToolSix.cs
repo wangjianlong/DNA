@@ -39,7 +39,7 @@ namespace DNA.Tools
                         var five = new PotentialFive();
                         foreach (var sf in SFS)
                         {
-                            Command.CommandText = string.Format("Select SUM(JZRJQL),SUM(TZQDQL),SUM(SSCCQL),SUM(YYSSCCQL) from GYYD where HYDM='{0}' AND SFGSQY='{1}'", code,sf);
+                            Command.CommandText = string.Format("Select SUM(JZRJQL),SUM(TZQDQL),SUM(SSCCQL),SUM(YYSSCCQL) from GYYD where HYDM='{0}' AND SFGSQY='{1}'AND TDSYQK='1'", code,sf);
                             using (var reader = Command.ExecuteReader())
                             {
                                 if (reader.Read())

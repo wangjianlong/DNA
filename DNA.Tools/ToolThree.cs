@@ -41,11 +41,11 @@ namespace DNA.Tools
             foreach (var region in Regions)
             {
                 AParcel aprcel = new AParcel();
-                SQLText = string.Format("Select COUNT(*),SUM(WFKTDMJ) from GYYD where WKFTDMJ >0 AND XZJDMC={0}", region);//未开发总规模
+                SQLText = string.Format("Select COUNT(*),SUM(WFKTDMJ) from GYYD where WKFTDMJ >0 AND XZJDMC={0} AND TDSYQK<>'1'", region);//未开发总规模
                 aprcel.HE = ExecuteReader(SQLText);
-                SQLText = string.Format("Select COUNT(*),SUM(WFKTDMJ) from GYYD where WKFTDMJ=YDZMJ AND WKFTDMJ>0 AND XZJDMC={0}", region);//整宗未开发
+                SQLText = string.Format("Select COUNT(*),SUM(WFKTDMJ) from GYYD where WKFTDMJ=YDZMJ AND WKFTDMJ>0 AND XZJDMC={0} AND TDSYQK='2'", region);//整宗未开发
                 aprcel.WKF = ExecuteReader(SQLText);
-                SQLText = string.Format("Select COUNT(*),SUM(WFKTDMJ) from GYYD where WKFTDMJ>0 AND YKFTDMJ>0 AND XZJDMC={0}", region);
+                SQLText = string.Format("Select COUNT(*),SUM(WFKTDMJ) from GYYD where WKFTDMJ>0 AND YKFTDMJ>0 AND XZJDMC={0} AND TDSYQK='3'", region);
                 aprcel.BFWKF = ExecuteReader(SQLText);
                 ParcelDict.Add(region, aprcel);
                 RegionSum = RegionSum + aprcel;
@@ -53,11 +53,11 @@ namespace DNA.Tools
             foreach (var terrace in Terraces)
             {
                 AParcel aprcel = new AParcel();
-                SQLText = string.Format("Select COUNT(*),SUM(WFKTDMJ) from GYYD where WKFTDMJ >0 AND CYPTMC Like '%{0}%'", terrace);//未开发总规模
+                SQLText = string.Format("Select COUNT(*),SUM(WFKTDMJ) from GYYD where WKFTDMJ >0 AND CYPTMC Like '%{0}%' AND TDSYQK<>'1'", terrace);//未开发总规模
                 aprcel.HE = ExecuteReader(SQLText);
-                SQLText = string.Format("Select COUNT(*),SUM(WFKTDMJ) from GYYD where WKFTDMJ=YDZMJ AND WKFTDMJ>0 AND CYPTMC Like '%{0}%'", terrace);//整宗未开发
+                SQLText = string.Format("Select COUNT(*),SUM(WFKTDMJ) from GYYD where WKFTDMJ=YDZMJ AND WKFTDMJ>0 AND CYPTMC Like '%{0}%' AND TDSYQK='2'", terrace);//整宗未开发
                 aprcel.WKF = ExecuteReader(SQLText);
-                SQLText = string.Format("Select COUNT(*),SUM(WFKTDMJ) from GYYD where WKFTDMJ>0 AND YKFTDMJ>0 AND CYPTMC Like '%{0}%'", terrace);
+                SQLText = string.Format("Select COUNT(*),SUM(WFKTDMJ) from GYYD where WKFTDMJ>0 AND YKFTDMJ>0 AND CYPTMC Like '%{0}%' AND TDSYQK='3'", terrace);
                 aprcel.BFWKF = ExecuteReader(SQLText);
                 TerraceDict.Add(terrace, aprcel);
                 TerraceSum = TerraceSum + aprcel;

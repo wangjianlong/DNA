@@ -11,7 +11,7 @@ namespace DNA.Tools
     {
         public Dictionary<string, Union> AreaDict { get; set; }//地块编号  批准用地面积 土地登记面积  抵押土地面积  总面积等等
         public Dictionary<string, string> WayDict { get; set; }//地块编号   实际用途  
-        public Dictionary<string,MergeBase> FacDict { get; set; }
+        public Dictionary<string,MergeBase> FacDict { get; set; }//企业编号
         public Dictionary<string, int> NumberDict { get; set; }//地块编号   该地块上的企业数量
         public MergeTool(string mdbFilePath)
         {
@@ -29,7 +29,7 @@ namespace DNA.Tools
                 connection.Open();
                 using (OleDbCommand Command = connection.CreateCommand())
                 {
-                    Command.CommandText = "Select DKBH,PZYDMJ,TDDJMJ,DYMJ,YDZMJ,WJPZYDMJ,JZZMJ,JZZDMJ,WPZJZMJ,WPZJZZDMJ,SFWYCYPT,CYPTMC from GYYD";
+                    Command.CommandText = "Select DKBH,PZYDMJ,TDDJMJ,DYMJ,YDZMJ,WJPZYDMJ,JZZMJ,JZZDMJ,WPZJZMJ,WPZJZZDMJ,SFWYCYPT,CYPTMC,TDSYQK from GYYD";
                     using (var reader = Command.ExecuteReader())
                     {
                         string DKBH = string.Empty;
@@ -55,7 +55,8 @@ namespace DNA.Tools
                                         WPZJZMJ = double.Parse(reader[8].ToString()),
                                         WPZJZZDMJ = double.Parse(reader[9].ToString()),
                                         SFWYCYPT = reader[10].ToString() == "是" ? true : false,
-                                        CYPTMC = reader[11].ToString()
+                                        CYPTMC = reader[11].ToString(),
+                                        TDSYQK=reader[12].ToString()
                                     }
                                 });
                             }
@@ -214,8 +215,8 @@ namespace DNA.Tools
                             }
                             one = one * percent;
                             //commandText += string.Format(" YDZMJ={0},WJPZYDMJ={1},JZZMJ={2}", one.YDZMJ,one.WJPZYDMJ,one.JZZMJ);
-                            commandText += string.Format(" YDZMJ={0},WJPZYDMJ={1},JZZDMJ={2},WPZJZMJ={3},WPZJZZDMJ={4},CZQYSL=1,JZZMJ={5},SFWYCYPT='{6}',CYPTMC='{7}',",
-                                one.YDZMJ, one.WJPZYDMJ, one.JZZDMJ, one.WPZJZMJ, one.WPZJZZDMJ, one.JZZMJ, one.SFWYCYPT ? "是" : "否", one.CYPTMC);
+                            commandText += string.Format(" YDZMJ={0},WJPZYDMJ={1},JZZDMJ={2},WPZJZMJ={3},WPZJZZDMJ={4},CZQYSL=1,JZZMJ={5},SFWYCYPT='{6}',CYPTMC='{7}',TDSYQK='[8]'",
+                                one.YDZMJ, one.WJPZYDMJ, one.JZZDMJ, one.WPZJZMJ, one.WPZJZZDMJ, one.JZZMJ, one.SFWYCYPT ? "是" : "否", one.CYPTMC,one.TDSYQK);
                         }
                         if (FacDict.ContainsKey(item.QYBH))
                         {
