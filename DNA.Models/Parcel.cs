@@ -17,5 +17,13 @@ namespace DNA.Models
                 Area = c1.Area + c2.Area
             };
         }
+        public static Parcel operator /(Parcel c1, int a)
+        {
+            return new Parcel()
+            {
+                Number = c1.Number,
+                Area = c1.Area / a
+            };
+        }
     }
 }

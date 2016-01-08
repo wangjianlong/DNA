@@ -16,98 +16,33 @@ namespace DNA
     {
         static void Main(string[] args)
         {
-            IWorkbook workbook2 = new HSSFWorkbook();//.xls
-            IWorkbook workbook3 = new XSSFWorkbook();//.xlsx
-            IWorkbook workbook = null;
+           
             try
             {
-                using (FileStream fs = new FileStream("", FileMode.Open, FileAccess.Read))
+                string SaveFilePath = args[0];
+                //string SaveFilePath = @"C:\Users\loowootech\Desktop\1.xls";
+                string MdbFilePath = args[1];
+                //string MdbFilePath = @"C:\Users\loowootech\Desktop\mdb2.mdb";
+                string modelPath = args[2];
+                //string modelPath = @"E:\Github\DNA\DNA.Winform\bin\Debug\Excels.xls";
+                Console.WriteLine(string.Format("成功读取Access数据库路径：{0}", SaveFilePath));
+                Console.WriteLine(string.Format("成功读取Excel文件输出路径：{0}", MdbFilePath));
+                Console.WriteLine(string.Format("成功读取Excel模型文件路径:{0}", modelPath));
+                if (!string.IsNullOrEmpty(SaveFilePath) && !string.IsNullOrEmpty(MdbFilePath))
                 {
-                    workbook = WorkbookFactory.Create(fs);
+                    Console.WriteLine("开始准备分析数据.........");
+                    var Manager = new Manager(SaveFilePath, MdbFilePath, modelPath);
+                    Console.WriteLine("程序开始分析..........");
+                    Manager.Analyze();
+                    Console.WriteLine("完成数据分析和Excel生成");
                 }
-
+               
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex.ToString());
             }
-            ISheet sheet = workbook.GetSheet("sheet1");
-            sheet = workbook.GetSheetAt(0);
-            IRow row = sheet.GetRow(0);
-            if (row == null)
-            {
-                row = sheet.CreateRow(0);
-            }
-            ICell cell = row.GetCell(0);
-            if (cell == null)
-            {
-                cell = row.CreateCell(0);
-            }
-            cell.SetCellValue("wangjianlong ");
-
-            List<string> List = new List<string>();
-            List<int> list1 = new List<int>();
-            List<double> List2 = new List<double>();
-            
-            Dictionary<int, string> Dict = new Dictionary<int, string>();
-
-            int Count = sheet.LastRowNum;
-            int Number = row.LastCellNum;
-            
-            string[] array=new string[Count];
-
-            for (var i = 0; i < Count; i++)
-            {
-                row = sheet.GetRow(i);
-                for (var j = 0; j < Number; j++)
-                {
-                    cell = row.GetCell(j);
-                    string str = cell.ToString();//g公式
-                    switch (cell.CellType)
-                    {
-                        case CellType.Formula:
-                            try
-                            {
-                                str= cell.NumericCellValue.ToString();
-                                
-                            }
-                            catch (Exception ex)
-                            {
-
-                            }
-                            break;
-                    }
-                    if (!List.Contains(str))
-                    {
-                        List.Add(str);
-                    }
-                    if (list1.Contains(int.Parse(str)))
-                    {
-                        int a=0;
-                        if (int.TryParse(str, out a))
-                        {
-
-                        }
-                    }
-
-                }
-            }
-            using (var fs = new FileStream(@"C:\", FileMode.OpenOrCreate, FileAccess.Write))
-            {
-                workbook.Write(fs);
-            }
-
-
-
-            
-
-            string x = "3.65";
-            string y = "3.65";
-            //double a = double.Parse(x);
-            double b = double.Parse(y);
-            Console.WriteLine(string.Format("a:{0}  b:{1}  a/b={2}", a, b, a / b));
-            int temp = 1314;
-            Console.WriteLine(temp / 100);
-            Console.ReadLine();
+           
         }
     }
 }

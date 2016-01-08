@@ -215,7 +215,7 @@ namespace DNA.Tools
                             }
                             one = one * percent;
                             //commandText += string.Format(" YDZMJ={0},WJPZYDMJ={1},JZZMJ={2}", one.YDZMJ,one.WJPZYDMJ,one.JZZMJ);
-                            commandText += string.Format(" YDZMJ={0},WJPZYDMJ={1},JZZDMJ={2},WPZJZMJ={3},WPZJZZDMJ={4},CZQYSL=1,JZZMJ={5},SFWYCYPT='{6}',CYPTMC='{7}',TDSYQK='[8]'",
+                            commandText += string.Format(" YDZMJ={0},WJPZYDMJ={1},JZZDMJ={2},WPZJZMJ={3},WPZJZZDMJ={4},CZQYSL=1,JZZMJ={5},SFWYCYPT='{6}',CYPTMC='{7}',TDSYQK='{8}',",
                                 one.YDZMJ, one.WJPZYDMJ, one.JZZDMJ, one.WPZJZMJ, one.WPZJZZDMJ, one.JZZMJ, one.SFWYCYPT ? "是" : "否", one.CYPTMC,one.TDSYQK);
                         }
                         if (FacDict.ContainsKey(item.QYBH))

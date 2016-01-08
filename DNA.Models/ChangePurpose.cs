@@ -25,5 +25,17 @@ namespace DNA.Models
                 AreaOther=c1.AreaOther+c2.AreaOther
             };
         }
+        public static ChangePurpose operator /(ChangePurpose c1, int a)
+        {
+            return new ChangePurpose()
+            {
+                Number = c1.Number,
+                SumArea = c1.SumArea / a,
+                Area05 = c1.Area05 / a,
+                Area07 = c1.Area07 / a,
+                Area08 = c1.Area08 / a,
+                AreaOther = c1.AreaOther / a
+            };
+        }
     }
 }

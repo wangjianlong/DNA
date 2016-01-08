@@ -34,6 +34,10 @@ namespace DNA.Tools
                 Down = new PotentialBase()
             };
         }
+        public void Doing()
+        {
+            Working();
+        }
         public void Working()
         {
             using (OleDbConnection connection = new OleDbConnection(ConnectionString))
@@ -47,7 +51,7 @@ namespace DNA.Tools
                         PotentialFive five = new PotentialFive();
                         foreach (var sf in SFS)
                         {
-                            Command.CommandText = string.Format("Select SUM(JZRJQL),SUM(TZQDQL),SUM(SSCCQL),SUM(YYSSCCQL) from GYYD where XZJDMC='{0}' AND SFGSQY='{1}'", region, sf);
+                            Command.CommandText = string.Format("Select SUM(JZRJQL),SUM(TZQDQL),SUM(SSCCQL),SUM(YYSSCCQL) from GYYD where XZJDMC='{0}' AND SFGSQY='{1}' AND TDSYQK='1'", region, sf);
                             using (var reader = Command.ExecuteReader())
                             {
                                 if (reader.Read())
@@ -82,11 +86,11 @@ namespace DNA.Tools
                         {
                             if (terrace == "其他")
                             {
-                                str = string.Format("from GYYD_YDDW where SFWYCYPT='否' AND TDSYQK='1' AND SFGSQY='{0}'", sf);
+                                str = string.Format("from GYYD where SFWYCYPT='否' AND TDSYQK='1' AND SFGSQY='{0}'", sf);
                             }
                             else
                             {
-                                str = string.Format("from GYYD_YDDW where CYPTMC Like '%{0}%' AND TDSYQK='1' AND SFGSQY='{1}", terrace, val);
+                                str = string.Format("from GYYD where CYPTMC Like '%{0}%' AND TDSYQK='1' AND SFGSQY='{1}", terrace, val);
                             }
                             Command.CommandText = string.Format("Select SUM(JZRJQL),SUM(TZQDQL),SUM(SSCCQL),SUM(YYSSCCQL) {0}", str);
                             using (var reader = Command.ExecuteReader())

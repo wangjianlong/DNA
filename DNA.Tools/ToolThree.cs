@@ -36,30 +36,34 @@ namespace DNA.Tools
             StartRow2 = 23;
             Init(mdbFilePath);
         }
+        public void Doing()
+        {
+            Working();
+        }
         public void Working()
         {
             foreach (var region in Regions)
             {
                 AParcel aprcel = new AParcel();
-                SQLText = string.Format("Select COUNT(*),SUM(WFKTDMJ) from GYYD where WKFTDMJ >0 AND XZJDMC={0} AND TDSYQK<>'1'", region);//未开发总规模
+                SQLText = string.Format("Select COUNT(*),SUM(WKFTDMJ) from GYYD where XZJDMC='{0}' AND TDSYQK<>'1'", region);//未开发总规模
                 aprcel.HE = ExecuteReader(SQLText);
-                SQLText = string.Format("Select COUNT(*),SUM(WFKTDMJ) from GYYD where WKFTDMJ=YDZMJ AND WKFTDMJ>0 AND XZJDMC={0} AND TDSYQK='2'", region);//整宗未开发
+                SQLText = string.Format("Select COUNT(*),SUM(WKFTDMJ) from GYYD where XZJDMC='{0}' AND TDSYQK='2'", region);//整宗未开发
                 aprcel.WKF = ExecuteReader(SQLText);
-                SQLText = string.Format("Select COUNT(*),SUM(WFKTDMJ) from GYYD where WKFTDMJ>0 AND YKFTDMJ>0 AND XZJDMC={0} AND TDSYQK='3'", region);
+                SQLText = string.Format("Select COUNT(*),SUM(WKFTDMJ) from GYYD where  XZJDMC='{0}' AND TDSYQK='3'", region);
                 aprcel.BFWKF = ExecuteReader(SQLText);
-                ParcelDict.Add(region, aprcel);
+                ParcelDict.Add(region, aprcel/10000);
                 RegionSum = RegionSum + aprcel;
             }
             foreach (var terrace in Terraces)
             {
                 AParcel aprcel = new AParcel();
-                SQLText = string.Format("Select COUNT(*),SUM(WFKTDMJ) from GYYD where WKFTDMJ >0 AND CYPTMC Like '%{0}%' AND TDSYQK<>'1'", terrace);//未开发总规模
+                SQLText = string.Format("Select COUNT(*),SUM(WKFTDMJ) from GYYD where CYPTMC Like '%{0}%' AND TDSYQK<>'1'", terrace);//未开发总规模
                 aprcel.HE = ExecuteReader(SQLText);
-                SQLText = string.Format("Select COUNT(*),SUM(WFKTDMJ) from GYYD where WKFTDMJ=YDZMJ AND WKFTDMJ>0 AND CYPTMC Like '%{0}%' AND TDSYQK='2'", terrace);//整宗未开发
+                SQLText = string.Format("Select COUNT(*),SUM(WKFTDMJ) from GYYD where CYPTMC Like '%{0}%' AND TDSYQK='2'", terrace);//整宗未开发
                 aprcel.WKF = ExecuteReader(SQLText);
-                SQLText = string.Format("Select COUNT(*),SUM(WFKTDMJ) from GYYD where WKFTDMJ>0 AND YKFTDMJ>0 AND CYPTMC Like '%{0}%' AND TDSYQK='3'", terrace);
+                SQLText = string.Format("Select COUNT(*),SUM(WKFTDMJ) from GYYD where CYPTMC Like '%{0}%' AND TDSYQK='3'", terrace);
                 aprcel.BFWKF = ExecuteReader(SQLText);
-                TerraceDict.Add(terrace, aprcel);
+                TerraceDict.Add(terrace, aprcel/10000);
                 TerraceSum = TerraceSum + aprcel;
             }
 
@@ -67,6 +71,8 @@ namespace DNA.Tools
         private Parcel ExecuteReader(string SQLCommandText)
         {
             Parcel parcel=null;
+            int a = 0;
+            double b = .0;
             using (OleDbConnection Connection = new OleDbConnection(ConnectionString))
             {
                 Connection.Open();
@@ -78,8 +84,8 @@ namespace DNA.Tools
                     {
                         parcel = new Parcel()
                         {
-                            Number = int.Parse(reader[0].ToString()),
-                            Area = double.Parse(reader[1].ToString())
+                            Number = int.TryParse(reader[0].ToString(),out a)?a:0,
+                            Area = double.TryParse(reader[1].ToString(),out b)?b:.0
                         };
                     }
                 }
@@ -89,9 +95,9 @@ namespace DNA.Tools
         }
         public void WriteHelper(AParcel Aparcel, ISheet Sheet, int Row, int Line)
         {
-            WriteBase(Aparcel.HE, Sheet, StartRow, StartCell);
-            WriteBase(Aparcel.WKF, Sheet, StartRow, StartCell + 2);
-            WriteBase(Aparcel.BFWKF, Sheet, StartRow, StartCell + 4);
+            WriteBase(Aparcel.HE, Sheet, Row, Line);
+            WriteBase(Aparcel.WKF, Sheet, Row, Line + 2);
+            WriteBase(Aparcel.BFWKF, Sheet, Row, Line + 4);
         }
 
         public void Write(ref ISheet Sheet)

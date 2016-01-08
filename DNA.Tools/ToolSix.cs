@@ -26,6 +26,10 @@ namespace DNA.Tools
                 Down = new PotentialBase()
             };
         }
+        public void Doing()
+        {
+            Working();
+        }
         public void Working()
         {
             using (OleDbConnection connection = new OleDbConnection(ConnectionString))

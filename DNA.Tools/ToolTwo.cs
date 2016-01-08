@@ -21,9 +21,14 @@ namespace DNA.Tools
                 Down = new DataBase()
             };
             StartRow = 4;
-            StartCell = 2;
+            StartCell = 3;
             StartRow2 = 66;
+            SheetName = "表2";
             Init(mdbFilePath);
+        }
+        public void Doing()
+        {
+            Working();
         }
         public void Working()
         {
@@ -33,11 +38,11 @@ namespace DNA.Tools
                 foreach (var val in SFS)
                 {
                     ReadData(new string[]{
-                        string.Format("Select SUM(PZYDMJ),SUM(TDZMJ),SUM(YDZMJ),SUM(JZZMJ),SUM(JZZDMJ),SUM(WPZJZMJ),SUM(WPZJZZDMJ),SUM(TDDJMJ),SUM(DYMJ),SUM(CZQYSL) from GYYD_YDDW where HYDM='{0}' AND SFGSQY='{1}' AND TDSYQK='1'",type, val),
-                        string.Format("Select COUNT(*) from GYYD_YDDW where SFGXQY='是' AND HYDM='{0}' AND SFGSQY='{1}' AND TDSYQK='1'", type, val),
-                        string.Format("Select SUM(CYRS),SUM(LJGDZCTZ),SUM(YDL2012),SUM(YDL2013),SUM(YDL2014),SUM(GSRKSS2012),SUM(GSRKSS2013),SUM(GSRKSS2014),SUM(DSRKSS2012),SUM(DSRKSS2013),SUM(DSRKSS2014),SUM(ZYYSR2012),SUM(ZYYSR2013),SUM(ZYYSR2014) from GYYD_YDDW where  HYDM='{0}' AND SFGSQY='{1}' AND TDSYQK='1'", type, val)
+                        string.Format("Select SUM(PZYDMJ),SUM(YDZMJ),SUM(WJPZYDMJ),SUM(JZZMJ),SUM(JZZDMJ),SUM(WPZJZMJ),SUM(WPZJZZDMJ),SUM(TDDJMJ),SUM(DYMJ),SUM(CZQYSL) from GYYD_YDDW where HYDM={0} AND SFGSQY='{1}' AND TDSYQK='1'",type, val),
+                        string.Format("Select COUNT(*) from GYYD_YDDW where SFGXQY='是' AND HYDM={0} AND SFGSQY='{1}' AND TDSYQK='1'", type, val),
+                        string.Format("Select SUM(CYRS),SUM(LJGDZCTZ),SUM(YDL2012),SUM(YDL2013),SUM(YDL2014),SUM(GSRKSS2012),SUM(GSRKSS2013),SUM(GSRKSS2014),SUM(DSRKSS2012),SUM(DSRKSS2013),SUM(DSRKSS2014),SUM(ZYYSR2012),SUM(ZYYSR2013),SUM(ZYYSR2014) from GYYD_YDDW where  HYDM={0} AND SFGSQY='{1}' AND TDSYQK='1'", type, val)
                     });
-                    DataBase database = Translate(queue);
+                    DataBase database = Translate(queue)/10000;
                     switch (val)
                     {
                         case "是":

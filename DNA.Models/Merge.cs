@@ -148,4 +148,13 @@ namespace DNA.Models
             };
         }
     }
+    public enum SheetEnum
+    {
+        one,
+        two,
+        three,
+        four,
+        five,
+        six
+    }
 }

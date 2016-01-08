@@ -152,6 +152,12 @@ namespace DNA.Models
                 ZYYSR2014 = c1.ZYYSR2014 + c2.ZYYSR2014
             };
         }
+        /// <summary>
+        /// 面积单位换算
+        /// </summary>
+        /// <param name="c1"></param>
+        /// <param name="a"></param>
+        /// <returns></returns>
         public static DataBase operator /(DataBase c1, int a)
         {
             return new DataBase()
@@ -164,7 +170,23 @@ namespace DNA.Models
                 WPZJZMJ = c1.WPZJZMJ / a,
                 WPZJZZDMJ = c1.WPZJZZDMJ / a,
                 TDDJMJ = c1.TDDJMJ / a,
-                DYMJ = c1.DYMJ / a
+                DYMJ = c1.DYMJ / a,
+                CZQYSL = c1.CZQYSL,
+                SFGXQY = c1.SFGXQY,
+                CYRS = c1.CYRS,
+                LJGDZCTZ = c1.LJGDZCTZ,
+                YDL2012 = c1.YDL2012,
+                YDL2013 = c1.YDL2013,
+                YDL2014 = c1.YDL2014,
+                GSRKSS2012 = c1.GSRKSS2012,
+                GSRKSS2013 = c1.GSRKSS2013,
+                GSRKSS2014 = c1.GSRKSS2014,
+                DSRKSS2012 = c1.DSRKSS2012,
+                DSRKSS2013 = c1.DSRKSS2013,
+                DSRKSS2014 = c1.DSRKSS2014,
+                ZYYSR2012 = c1.ZYYSR2012,
+                ZYYSR2013 = c1.ZYYSR2013,
+                ZYYSR2014 = c1.ZYYSR2014
             };
         }
     }

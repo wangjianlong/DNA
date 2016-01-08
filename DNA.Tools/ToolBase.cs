@@ -236,6 +236,10 @@ namespace DNA.Tools
             }
             return database;
         }
+        public string GetSheetName()
+        {
+            return SheetName;
+        }
         public void Dispose()
         {
             if (!string.IsNullOrEmpty(CreateView))

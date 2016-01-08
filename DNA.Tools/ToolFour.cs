@@ -19,6 +19,11 @@ namespace DNA.Tools
             StartRow = 3;
             StartRow2 = 27;
             StartCell = 1;
+            SheetName = "表4";
+        }
+        public void Doing()
+        {
+            Working();
         }
 
         public void Working()
@@ -27,7 +32,7 @@ namespace DNA.Tools
             {
                 foreach (var item in List)
                 {
-                    var XZQ = GetOneBase(string.Format("Select XZJDMC from GYYD where DKBH={0}", item.DKBH));
+                    var XZQ = GetOneBase(string.Format("Select XZJDMC from GYYD where DKBH='{0}'", item.DKBH));
                     if (!string.IsNullOrEmpty(XZQ))
                     {
                         var val = new ChangePurpose()
@@ -50,6 +55,7 @@ namespace DNA.Tools
                                 val.AreaOther = item.Area;
                                 break;
                         }
+                        val = val / 1000;
                         if (Dict.ContainsKey(XZQ))
                         {
                             Dict[XZQ] = Dict[XZQ] + val;

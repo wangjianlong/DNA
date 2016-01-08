@@ -54,10 +54,10 @@ namespace DNA.Tools
 
                     ReadData(new string[]{
                         string.Format("Select SUM(PZYDMJ),SUM(YDZMJ),SUM(WJPZYDMJ),SUM(JZZMJ),SUM(JZZDMJ),SUM(WPZJZMJ),SUM(WPZJZZDMJ),SUM(TDDJMJ),SUM(DYMJ),SUM(CZQYSL) from GYYD_YDDW where XZQMC='{0}' AND TDSYQK='1' AND SFGSQY='{1}'", region, val),
-                        string.Format("Select Count(*) from GYYD where XZQMC='{0}' AND TDSYQK='1' AND SFGSQY='{1}' AND SFGXQY='是'", region, val),
+                        string.Format("Select Count(*) from GYYD_YDDW where XZQMC='{0}' AND TDSYQK='1' AND SFGSQY='{1}' AND SFGXQY='是'", region, val),
                         string.Format("Select SUM(CYRS),SUM(LJGDZCTZ),SUM(YDL2012),SUM(YDL2013),SUM(YDL2014),SUM(GSRKSS2012),SUM(GSRKSS2013),SUM(GSRKSS2014),SUM(DSRKSS2012),SUM(DSRKSS2013),SUM(DSRKSS2014),SUM(ZYYSR2012),SUM(ZYYSR2013),SUM(ZYYSR2014) from GYYD_YDDW where XZQMC='{0}' AND TDSYQK='1' AND SFGSQY='{1}'",region,val)
                     });
-                    var database = Translate(queue);
+                    var database = Translate(queue)/10000;
                     switch (val)
                     {
                         case "是":
@@ -97,7 +97,7 @@ namespace DNA.Tools
                         string.Format("Select Count(*) {0} AND SFGXQY='是'",str),
                         string.Format("Select SUM(CYRS),SUM(LJGDZCTZ),SUM(YDL2012),SUM(YDL2013),SUM(YDL2014),SUM(GSRKSS2012),SUM(GSRKSS2013),SUM(GSRKSS2014),SUM(DSRKSS2012),SUM(DSRKSS2013),SUM(DSRKSS2014),SUM(ZYYSR2012),SUM(ZYYSR2013),SUM(ZYYSR2014) {0}",str)
                     });
-                    DataBase database = Translate(queue);
+                    DataBase database = Translate(queue)/10000;
                     switch (val)
                     {
                         case "是":

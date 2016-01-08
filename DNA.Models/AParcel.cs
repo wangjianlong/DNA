@@ -26,5 +26,14 @@ namespace DNA.Models
                 HE = c1.HE + c2.HE
             };
         }
+        public static AParcel operator /(AParcel c1, int a)
+        {
+            return new AParcel()
+            {
+                WKF = c1.WKF / a,
+                BFWKF = c1.BFWKF / a,
+                HE = c1.HE / a
+            };
+        }
     }
 }
