@@ -10,6 +10,13 @@ namespace DNA.Tools
 {
     public class ToolFive:ToolRegion,ITool
     {
+        public static string CurrentName
+        {
+            get
+            {
+                return "表5工业用地（已建成）利用潜力区域汇总表.xls";
+            }
+        }
         public Dictionary<string, PotentialFive> PotentialDict { get; set; }//乡镇
         public Dictionary<string, PotentialFive> FPotentialDict { get; set; }
         public PotentialFive PotentialSum { get; set; }
@@ -20,7 +27,7 @@ namespace DNA.Tools
             SheetName = "表5";
             StartRow = 3;
             StartCell = 3;
-            StartRow2 = 17;
+            StartRow2 = 45;
             PotentialDict = new Dictionary<string, PotentialFive>();
             FPotentialDict = new Dictionary<string, PotentialFive>();
             PotentialSum = new PotentialFive()
@@ -90,7 +97,7 @@ namespace DNA.Tools
                             }
                             else
                             {
-                                str = string.Format("from GYYD where CYPTMC Like '%{0}%' AND TDSYQK='1' AND SFGSQY='{1}", terrace, val);
+                                str = string.Format("from GYYD where CYPTMC Like '%{0}%' AND TDSYQK='1' AND SFGSQY='{1}'", terrace, sf);
                             }
                             Command.CommandText = string.Format("Select SUM(JZRJQL),SUM(TZQDQL),SUM(SSCCQL),SUM(YYSSCCQL) {0}", str);
                             using (var reader = Command.ExecuteReader())
@@ -140,8 +147,12 @@ namespace DNA.Tools
                 WriteBase(pair.Value.Up, Sheet, StartRow2++, StartCell);
                 WriteBase(pair.Value.Down, Sheet, StartRow2++, StartCell);
             }
-            WriteBase(PotentialSum.Up, Sheet, 23, StartCell);
-            WriteBase(PotentialSum.Down, Sheet, 24, StartCell);
+            WriteBase(PotentialSum.Up, Sheet, 85, StartCell);
+            WriteBase(PotentialSum.Down, Sheet, 86, StartCell);
+        }
+        public string GetCurrentName()
+        {
+            return CurrentName;
         }
     }
 }

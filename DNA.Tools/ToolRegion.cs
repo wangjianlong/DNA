@@ -22,7 +22,7 @@ namespace DNA.Tools
             base.Init(mdbFilePath);
             this.Regions = GetRegions();
             this.Terraces = GetTerraces();
-            this.Terraces.Add("其他");
+            //this.Terraces.Add("其他");
         }
 
     }

@@ -12,5 +12,6 @@ namespace DNA.Models
         void Doing();
         void Working();
         void Write(ref ISheet Sheet);
+        string GetCurrentName();
     }
 }

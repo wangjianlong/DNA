@@ -42,6 +42,14 @@ namespace DNA.Models
         /// </summary>
         public double WPZJZZDMJ { get; set; }
         /// <summary>
+        /// 已开发土地面积
+        /// </summary>
+        public double YKFTDMJ { get; set; }
+        /// <summary>
+        /// 未开发土地面积
+        /// </summary>
+        public double WKFTDMJ { get; set; }
+        /// <summary>
         /// 是否位于产业平台
         /// </summary>
         public bool SFWYCYPT { get; set; }
@@ -63,6 +71,8 @@ namespace DNA.Models
                 JZZDMJ = c1.JZZDMJ * a,
                 WPZJZMJ = c1.WPZJZMJ * a,
                 WPZJZZDMJ = c1.WPZJZZDMJ * a,
+                YKFTDMJ=c1.YKFTDMJ*a,
+                WKFTDMJ=c1.WKFTDMJ*a,
                 SFWYCYPT=c1.SFWYCYPT,
                 CYPTMC=c1.CYPTMC,
                 TDSYQK=c1.TDSYQK
@@ -77,7 +87,9 @@ namespace DNA.Models
                 JZZMJ = c1.JZZMJ / a,
                 JZZDMJ = c1.JZZDMJ / a,
                 WPZJZMJ = c1.WPZJZMJ / a,
-                WPZJZZDMJ = c1.WPZJZZDMJ / a
+                WPZJZZDMJ = c1.WPZJZZDMJ / a,
+                YKFTDMJ = c1.YKFTDMJ / a,
+                WKFTDMJ = c1.WKFTDMJ / a
             };
         }
     }

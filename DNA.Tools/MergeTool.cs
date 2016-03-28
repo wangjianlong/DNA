@@ -13,23 +13,27 @@ namespace DNA.Tools
         public Dictionary<string, string> WayDict { get; set; }//地块编号   实际用途  
         public Dictionary<string,MergeBase> FacDict { get; set; }//企业编号
         public Dictionary<string, int> NumberDict { get; set; }//地块编号   该地块上的企业数量
+        public Dictionary<string,string> YDDWDict { get; set; }//企业编号  对应企业名称
+        
         public MergeTool(string mdbFilePath)
         {
             AreaDict = new Dictionary<string, Union>();
             WayDict = new Dictionary<string, string>();
             FacDict = new Dictionary<string, MergeBase>();
             NumberDict = new Dictionary<string, int>();
+            YDDWDict = new Dictionary<string, string>();
             Init(mdbFilePath);
         }
 
         public void InitM()
         {
+            double temp = .0;
             using (OleDbConnection connection = new OleDbConnection(ConnectionString))
             {
                 connection.Open();
                 using (OleDbCommand Command = connection.CreateCommand())
                 {
-                    Command.CommandText = "Select DKBH,PZYDMJ,TDDJMJ,DYMJ,YDZMJ,WJPZYDMJ,JZZMJ,JZZDMJ,WPZJZMJ,WPZJZZDMJ,SFWYCYPT,CYPTMC,TDSYQK from GYYD";
+                    Command.CommandText = "Select DKBH,PZYDMJ,TDDJMJ,DYMJ,YDZMJ,WJPZYDMJ,JZZMJ,JZZDMJ,WPZJZMJ,WPZJZZDMJ,SFWYCYPT,CYPTMC,TDSYQK,YKFTDMJ,WKFTDMJ from GYYD";
                     using (var reader = Command.ExecuteReader())
                     {
                         string DKBH = string.Empty;
@@ -42,21 +46,23 @@ namespace DNA.Tools
                                 {
                                     AreaBase = new AreaBase()
                                     {
-                                        PZYDMJ = double.Parse(reader[1].ToString()),
-                                        TDDJMJ = double.Parse(reader[2].ToString()),
-                                        DYMJ = double.Parse(reader[3].ToString())
+                                        PZYDMJ = double.TryParse(reader[1].ToString(), out temp) ? temp : 0,
+                                        TDDJMJ = double.TryParse(reader[2].ToString(), out temp) ? temp : 0,
+                                        DYMJ = double.TryParse(reader[3].ToString(), out temp) ? temp : 0
                                     },
                                     AreaOne = new AreaOne()
                                     {
-                                        YDZMJ = double.Parse(reader[4].ToString()),
-                                        WJPZYDMJ = double.Parse(reader[5].ToString()),
-                                        JZZMJ = double.Parse(reader[6].ToString()),
-                                        JZZDMJ = double.Parse(reader[7].ToString()),
-                                        WPZJZMJ = double.Parse(reader[8].ToString()),
-                                        WPZJZZDMJ = double.Parse(reader[9].ToString()),
+                                        YDZMJ = double.TryParse(reader[4].ToString(), out temp) ? temp : 0,
+                                        WJPZYDMJ = double.TryParse(reader[5].ToString(), out temp) ? temp : 0,
+                                        JZZMJ = double.TryParse(reader[6].ToString(), out temp) ? temp : 0,
+                                        JZZDMJ = double.TryParse(reader[7].ToString(), out temp) ? temp : 0,
+                                        WPZJZMJ = double.TryParse(reader[8].ToString(), out temp) ? temp : 0,
+                                        WPZJZZDMJ = double.TryParse(reader[9].ToString(), out temp) ? temp : 0,
                                         SFWYCYPT = reader[10].ToString() == "是" ? true : false,
                                         CYPTMC = reader[11].ToString(),
-                                        TDSYQK=reader[12].ToString()
+                                        TDSYQK = reader[12].ToString(),
+                                        YKFTDMJ = double.TryParse(reader[13].ToString(), out temp) ? temp : 0,
+                                        WKFTDMJ = double.TryParse(reader[14].ToString(), out temp) ? temp : 0
                                     }
                                 });
                             }
@@ -84,7 +90,7 @@ namespace DNA.Tools
                             }
                         }
                     }
-                    Command.CommandText = "Select QYBH,SFGXQY,HYDM,XZJDMC,SFGSQY,CYRS,LJGDZCTZ,YDL2012,YDL2013,YDL2014,GSRKSS2012,GSRKSS2013,GSRKSS2014,DSRKSS2012,DSRKSS2013,DSRKSS2014,ZYYSR2012,ZYYSR2013,ZYYSR2014 from YDDW";
+                    Command.CommandText = "Select QYBH,SFGXQY,HYDM,XZJDMC,SFGSQY,CYRS,LJGDZCTZ,YDL2012,YDL2013,YDL2014,GSRKSS2012,GSRKSS2013,GSRKSS2014,DSRKSS2012,DSRKSS2013,DSRKSS2014,ZYYSR2012,ZYYSR2013,ZYYSR2014,QYMC from YDDW";
                     using (var reader = Command.ExecuteReader())
                     {
                         string QYBH = string.Empty;
@@ -117,6 +123,11 @@ namespace DNA.Tools
                                         ZYYSR2013 = double.TryParse(reader[17].ToString(),out val)?val:.0,
                                         ZYYSR2014 = double.TryParse(reader[18].ToString(),out val)?val:.0
                                     });
+                                    var qymc = reader[19].ToString().Trim();
+                                    if (!string.IsNullOrEmpty(qymc))
+                                    {
+                                        YDDWDict.Add(QYBH,qymc);
+                                    }
                                     Console.WriteLine("成功");
                                 }
                                 catch (Exception ex)
@@ -215,15 +226,16 @@ namespace DNA.Tools
                             }
                             one = one * percent;
                             //commandText += string.Format(" YDZMJ={0},WJPZYDMJ={1},JZZMJ={2}", one.YDZMJ,one.WJPZYDMJ,one.JZZMJ);
-                            commandText += string.Format(" YDZMJ={0},WJPZYDMJ={1},JZZDMJ={2},WPZJZMJ={3},WPZJZZDMJ={4},CZQYSL=1,JZZMJ={5},SFWYCYPT='{6}',CYPTMC='{7}',TDSYQK='{8}',",
-                                one.YDZMJ, one.WJPZYDMJ, one.JZZDMJ, one.WPZJZMJ, one.WPZJZZDMJ, one.JZZMJ, one.SFWYCYPT ? "是" : "否", one.CYPTMC,one.TDSYQK);
+                            commandText += string.Format(" YDZMJ={0},WJPZYDMJ={1},JZZDMJ={2},WPZJZMJ={3},WPZJZZDMJ={4},JZZMJ={5},SFWYCYPT='{6}',CYPTMC='{7}',TDSYQK='{8}',YKFTDMJ={9},WKFTDMJ={10},",
+                                one.YDZMJ, one.WJPZYDMJ, one.JZZDMJ, one.WPZJZMJ, one.WPZJZZDMJ, one.JZZMJ, one.SFWYCYPT ? "是" : "否", one.CYPTMC,one.TDSYQK,one.YKFTDMJ,one.WKFTDMJ);
                         }
                         if (FacDict.ContainsKey(item.QYBH))
                         {
                             var fac = FacDict[item.QYBH];
+                            TempData body = null;
                             if (TempDict.ContainsKey(item.QYBH))
                             {
-                                var body = TempDict[item.QYBH];
+                                body = TempDict[item.QYBH];
                                 if (body.merge == null)
                                 {
                                     TempDict[item.QYBH].merge = fac;
@@ -244,13 +256,15 @@ namespace DNA.Tools
                             else
                             {
                                 fac = fac * item.Percent;
+                                body = new TempData();
+                                body.CurrentNumber = 0;
                             }
                            
                             //commandText += string.Format(" SFGXQY='{0}',SFGSQY='{1}',CYRS={2},HYDM='{3}'",
                             //    fac.SFGXQY ? "是" : "否", fac.SFGSQY ? "是" : "否", fac.CYRS,fac.HYDM
                             //    );
-                            commandText += string.Format(" SFGXQY='{0}',HYDM='{1}',XZQMC='{2}',SFGSQY='{3}',CYRS={4},LJGDZCTZ={5},YDL2012={6},YDL2013={7},YDL2014={8},GSRKSS2012={9},GSRKSS2013={10},GSRKSS2014={11},DSRKSS2012={12},DSRKSS2013={13},DSRKSS2014={14},ZYYSR2012={15},ZYYSR2013={16},ZYYSR2014={17}",
-                                fac.SFGXQY ? "是" : "否", fac.HYDM, fac.XZJDMC, fac.SFGSQY ? "是" : "否", fac.CYRS, fac.LJGDZCTZ, fac.YDL2012, fac.YDL2013, fac.YDL2014, fac.GSRKSS2012, fac.GSRKSS2013, fac.GSRKSS2014, fac.DSRKSS2012, fac.DSRKSS2013, fac.DSRKSS2014, fac.ZYYSR2012, fac.ZYYSR2013, fac.ZYYSR2014
+                            commandText += string.Format(" SFGXQY='{0}',HYDM='{1}',XZQMC='{2}',SFGSQY='{3}',CYRS={4},LJGDZCTZ={5},YDL2012={6},YDL2013={7},YDL2014={8},GSRKSS2012={9},GSRKSS2013={10},GSRKSS2014={11},DSRKSS2012={12},DSRKSS2013={13},DSRKSS2014={14},ZYYSR2012={15},ZYYSR2013={16},ZYYSR2014={17},CZQYSL={18}",
+                                fac.SFGXQY ? "是" : "否", fac.HYDM, fac.XZJDMC, fac.SFGSQY ? "是" : "否", fac.CYRS, fac.LJGDZCTZ, fac.YDL2012, fac.YDL2013, fac.YDL2014, fac.GSRKSS2012, fac.GSRKSS2013, fac.GSRKSS2014, fac.DSRKSS2012, fac.DSRKSS2013, fac.DSRKSS2014, fac.ZYYSR2012, fac.ZYYSR2013, fac.ZYYSR2014,body.CZQYSL
                                 );
                         }
                         commandText += string.Format(" where DKBH='{0}' AND QYBH='{1}'", item.DKBH, item.QYBH);

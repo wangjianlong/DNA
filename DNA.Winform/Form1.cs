@@ -18,6 +18,8 @@ namespace DNA.Winform
         private string FilePath { get; set; }
         private string MdbPath { get; set; }
         private string ModelExcelPath { get; set; }
+        private string ExcelFolder { get; set; }
+        private Thread _thread { get; set; }
         public Generted g { get; set; }
         public Form1()
         {
@@ -31,21 +33,83 @@ namespace DNA.Winform
             this.textBox1.Text = FilePath;
             //Folder = FileHelper.OpenFolder();
         }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            ExcelFolder = FileHelper.SaveFolder();
+            this.textBox3.Text = ExcelFolder;
+        }
 
         private void StartBtn_Click(object sender, EventArgs e)
         {
+            _thread = new Thread(Start);
+            _thread.IsBackground = true;
+            _thread.Start();
+            //if (!string.IsNullOrEmpty(MdbPath))
+            //{
+                
+            //    if (!string.IsNullOrEmpty(this.ExcelFolder))
+            //    {
+            //        Manager manager = new Manager(MdbPath);
+            //        manager.Analyze2(this.ExcelFolder);
+            //        MessageBox.Show("生成成功");
+            //    }
+            //    else if (!string.IsNullOrEmpty(this.FilePath))
+            //    {
+            //        Manager manager = new Manager(this.FilePath, MdbPath);
+            //        manager.Analyze();
+            //        MessageBox.Show("生成成功！");
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("未指定输出文件路径");
+            //    }
+            //}
+            //else
+            //{
+            //    MessageBox.Show("未指定Mdb文件路径");
+            //}
             
-            if (!string.IsNullOrEmpty(this.FilePath)&&!string.IsNullOrEmpty(MdbPath))
+
+
+            //if (!string.IsNullOrEmpty(this.FilePath)&&!string.IsNullOrEmpty(MdbPath))
+            //{
+            //    Manager manager = new Manager(this.FilePath, MdbPath);
+            //    manager.Analyze();
+            //    MessageBox.Show("生成成功！");
+            //    //var thread = new Thread(RunAsync);
+            //    //thread.Start();
+            //}
+            //else
+            //{
+            //    MessageBox.Show("请指定Mdb文件路径以及结果表格输出路径");
+            //}
+        }
+
+        private void Start()
+        {
+            if (!string.IsNullOrEmpty(MdbPath))
             {
-                //Manager manager = new Manager(this.FilePath,MdbPath);
-                //manager.Analyze();
-                //MessageBox.Show("生成成功！");
-                var thread = new Thread(RunAsync);
-                thread.Start();
+
+                if (!string.IsNullOrEmpty(this.ExcelFolder))
+                {
+                    Manager manager = new Manager(MdbPath);
+                    manager.Analyze2(this.ExcelFolder);
+                    MessageBox.Show("生成成功");
+                }
+                else if (!string.IsNullOrEmpty(this.FilePath))
+                {
+                    Manager manager = new Manager(this.FilePath, MdbPath);
+                    manager.Analyze();
+                    MessageBox.Show("生成成功！");
+                }
+                else
+                {
+                    MessageBox.Show("未指定输出文件路径");
+                }
             }
             else
             {
-                MessageBox.Show("请指定Mdb文件路径以及结果表格输出路径");
+                MessageBox.Show("未指定Mdb文件路径");
             }
         }
         private void RunAsync()
@@ -83,10 +147,28 @@ namespace DNA.Winform
                 this.textBox2.Text = MdbPath;
             }
         }
+        private void WClose()
+        {
+            if (_thread != null)
+            {
+                if (_thread.IsAlive)
+                {
+                    _thread.Abort();
+                }
+                else
+                {
+                    _thread.Join();
+                }
+            }
+           
+        }
 
         private void Cancel_Click(object sender, EventArgs e)
         {
+            this.WClose();
             this.Close();
         }
+
+        
     }
 }

@@ -10,6 +10,13 @@ namespace DNA.Tools
 {
     public class ToolThree:ToolRegion,ITool
     {
+        public static string CurrentName
+        {
+            get
+            {
+                return "表3工业用地（未开发）基本情况汇总表.xls";
+            }
+        }
         public Dictionary<string, AParcel> ParcelDict { get; set; }
         public Dictionary<string, AParcel> TerraceDict { get; set; }
         public AParcel RegionSum { get; set; }
@@ -33,7 +40,7 @@ namespace DNA.Tools
             SheetName = "表3";
             StartRow = 5;
             StartCell = 2;
-            StartRow2 = 23;
+            StartRow2 = 31;
             Init(mdbFilePath);
         }
         public void Doing()
@@ -51,7 +58,8 @@ namespace DNA.Tools
                 aprcel.WKF = ExecuteReader(SQLText);
                 SQLText = string.Format("Select COUNT(*),SUM(WKFTDMJ) from GYYD where  XZJDMC='{0}' AND TDSYQK='3'", region);
                 aprcel.BFWKF = ExecuteReader(SQLText);
-                ParcelDict.Add(region, aprcel/10000);
+                aprcel = aprcel / 10000;
+                ParcelDict.Add(region, aprcel);
                 RegionSum = RegionSum + aprcel;
             }
             foreach (var terrace in Terraces)
@@ -63,7 +71,8 @@ namespace DNA.Tools
                 aprcel.WKF = ExecuteReader(SQLText);
                 SQLText = string.Format("Select COUNT(*),SUM(WKFTDMJ) from GYYD where CYPTMC Like '%{0}%' AND TDSYQK='3'", terrace);
                 aprcel.BFWKF = ExecuteReader(SQLText);
-                TerraceDict.Add(terrace, aprcel/10000);
+                aprcel = aprcel / 10000;
+                TerraceDict.Add(terrace, aprcel);
                 TerraceSum = TerraceSum + aprcel;
             }
 
@@ -114,7 +123,11 @@ namespace DNA.Tools
                 Sheet.GetRow(StartRow2).GetCell(1).SetCellValue(terrace);
                 WriteHelper(TerraceDict[terrace], Sheet, StartRow2++, StartCell);
             }
-            WriteHelper(TerraceSum, Sheet, 31, StartCell);
+            WriteHelper(TerraceSum, Sheet, 51, StartCell);
+        }
+        public string GetCurrentName()
+        {
+            return CurrentName;
         }
     }
 }

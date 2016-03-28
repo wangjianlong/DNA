@@ -31,6 +31,7 @@ namespace DNA.Tools
             ViewName = System.Configuration.ConfigurationManager.AppSettings["VIEWNAME"];
             DropView = string.Format("Drop View {0}", ViewName);
             queue = new Queue<string>();
+            ValCount = 25;
         }
         public  virtual void Init(string mdbFilePath)
         {
@@ -126,6 +127,7 @@ namespace DNA.Tools
                 using (OleDbCommand command = Connection.CreateCommand())
                 {
                     command.CommandText = SQlCommandText;
+                    Console.WriteLine(SQlCommandText.Count());
                     command.ExecuteNonQuery();
                     try
                     {
@@ -163,6 +165,7 @@ namespace DNA.Tools
                     {
                         if (double.TryParse(item.GetValue(Data, null).ToString(), out val))
                         {
+                            //row.CreateCell(Line).SetCellValue(Math.Round(val, 2));
                             row.GetCell(Line).SetCellValue(Math.Round(val, 2));
                         }
                     }
@@ -170,6 +173,7 @@ namespace DNA.Tools
                     {
                         if (int.TryParse(item.GetValue(Data, null).ToString(), out Values))
                         {
+                            //row.CreateCell(Line).SetCellValue(Values);
                             row.GetCell(Line).SetCellValue(Values);
                         }
                     }

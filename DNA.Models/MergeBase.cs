@@ -171,10 +171,13 @@ namespace DNA.Models
         public TempData()
         {
             Reduce = new MergeBase();
+            CurrentNumber = 1;
         }
         public double Sum { get; set; }
         public int Count { get; set; }
         public MergeBase merge { get; set; }
         public MergeBase Reduce { get; set; }
+        public int CurrentNumber { get; set; }
+        public int CZQYSL { get { return CurrentNumber > 0 ? CurrentNumber-- : 0; } }
     }
 }

@@ -95,6 +95,10 @@ namespace DNA.Models
         /// </summary>
         public double ZYYSL { get; set; }
         /// <summary>
+        /// 累计固定资产投资
+        /// </summary>
+        public double LJGDZCTZ { get; set; }
+        /// <summary>
         /// 是否规上
         /// </summary>
         public bool SFGSQY { get; set; }
@@ -106,7 +110,8 @@ namespace DNA.Models
         {
             get
             {
-                return  (JZRJZB - JZZMJ / YDZMJ) / JZRJZB * YDZMJ/10000;
+                var val= (JZRJZB - JZZMJ / YDZMJ) / JZRJZB * YDZMJ / 10000;
+                return val < 0 ? 0 : val;
             }
         }
         /// <summary>
@@ -116,21 +121,24 @@ namespace DNA.Models
         {
             get
             {
-                return SFGSQY ? (TZQDZB * 15 - GDZCYJ / YDZMJ * 10000) / (TZQDZB * 15) * YDZMJ / 10000 : 0;
+                var val = (TZQDZB * 15 - LJGDZCTZ / YDZMJ * 10000) / (TZQDZB * 15) * YDZMJ / 10000;
+                return SFGSQY ? (val < 0 ? 0 : val) : 0;
             }
         }
         public double SSCCQL
         {
             get
             {
-                return (SSCCZB * 15 - (DSRKSS2014 + GSRKSS2014) / (YDZMJ / 10000)) / (SSCCZB * 15) * YDZMJ / 10000;
+                var val= (SSCCZB * 15 - (DSRKSS2014 + GSRKSS2014) / (YDZMJ / 10000)) / (SSCCZB * 15) * YDZMJ / 10000;
+                return val < 0 ? 0 : val;
             }
         }
         public double YYSSCCQL
         {
             get
             {
-                return SFGSQY ? (ZYYSL * 15 - ZYYSR2014 / (YDZMJ / 10000)) / (ZYYSL * 15) * YDZMJ / 10000 : 0;
+                var val = (ZYYSL * 15 - ZYYSR2014 / (YDZMJ / 10000)) / (ZYYSL * 15) * YDZMJ / 10000;
+                return SFGSQY ? (val < 0 ? 0 : val) : 0;
             }
         }
     }

@@ -287,10 +287,15 @@ namespace DNA.Tools
             {
                 var tem=Dict[key];
                 var boolstr = tem.SFGSQY ? "是" : "否";
-                SQLText = string.Format("UPDATE GYYD SET LJGDZCTZ={0},ZYYSR2012={1},ZYYSR2013={2},ZYYSR2014={3},DSRKSS2012={4},DSRKSS2013={5},DSRKSS2014={6},GSRKSS2012={7},GSRKSS2013={8},GSRKSS2014={9},YDL2012={10},YDL2013={11},YDL2014={12},CYRS={13},TDZMJ={14},SFGXQY={15},SYDKS=1,SFGSQY='{16}',HYLB='{17}',HYDM='{18}',GDZCYJ={19} where DKBH='{20}'", tem.Base.LJGDZCTZ, tem.Base.ZYYSR2012, tem.Base.ZYYSR2013, tem.Base.ZYYSR2014, tem.Base.DSRKSS2012, tem.Base.DSRKSS2013, tem.Base.DSRKSS2014, tem.Base.GSRKSS2012, tem.Base.GSRKSS2013, tem.Base.GSRKSS2014, tem.Base.YDL2012, tem.Base.YDL2013, tem.Base.YDL2014, tem.Base.CYRS,tem.Base.TDZMJ,tem.SFGXQY,boolstr,tem.Hy.HYLB,tem.Hy.HYDM,tem.Base.GDZCYJ, tem.DKBH);
+                SQLText = string.Format("UPDATE GYYD SET LJGDZCTZ={0},ZYYSR2012={1},ZYYSR2013={2},ZYYSR2014={3},DSRKSS2012={4},DSRKSS2013={5},DSRKSS2014={6},GSRKSS2012={7},GSRKSS2013={8},GSRKSS2014={9},YDL2012={10},YDL2013={11},YDL2014={12},CYRS={13},TDZMJ={14},SFGXQY={15},SYDKS=1,SFGSQY='{16}',HYLB='{17}',HYDM='{18}',GDZCYJ={19} where DKBH='{20}'",tem.Base.LJGDZCTZ, tem.Base.ZYYSR2012, tem.Base.ZYYSR2013, tem.Base.ZYYSR2014, tem.Base.DSRKSS2012, tem.Base.DSRKSS2013, tem.Base.DSRKSS2014, tem.Base.GSRKSS2012, tem.Base.GSRKSS2013, tem.Base.GSRKSS2014, tem.Base.YDL2012, tem.Base.YDL2013, tem.Base.YDL2014, tem.Base.CYRS,tem.Base.TDZMJ,tem.SFGXQY,boolstr,tem.Hy.HYLB,tem.Hy.HYDM,tem.Base.GDZCYJ, tem.DKBH);
+                //SQLText = string.Format("UPDATE GYYD SET LJGDZCTZ={0},ZYYSR2012={1},ZYYSR2013={2},ZYYSR2014={3},DSRKSS2012={4},DSRKSS2013={5},DSRKSS2014={6},GSRKSS2012={7},GSRKSS2013={8} where DKBH='{9}'", tem.Base.LJGDZCTZ, tem.Base.ZYYSR2012, tem.Base.ZYYSR2013, tem.Base.ZYYSR2014, tem.Base.DSRKSS2012, tem.Base.DSRKSS2013, tem.Base.DSRKSS2014, tem.Base.GSRKSS2012, tem.Base.GSRKSS2013, tem.DKBH);
+
+                ExecuteQuery(SQLText);
+                //SQLText = string.Format("UPDATE GYYD SET GSRKSS2014={0},YDL2012={1},YDL2013={2},YDL2014={3},CYRS={4},TDZMJ={5},SFGXQY={6},SYDKS=1,SFGSQY='{7}',HYLB='{8}',HYDM='{9}',GDZCYJ={10} where DKBH='{11}'", tem.Base.GSRKSS2014, tem.Base.YDL2012, tem.Base.YDL2013, tem.Base.YDL2014, tem.Base.CYRS, tem.Base.TDZMJ, tem.SFGXQY, boolstr, tem.Hy.HYLB, tem.Hy.HYDM, tem.Base.GDZCYJ, tem.DKBH);
+                //ExecuteQuery(SQLText);
                 try
                 {
-                    ExecuteQuery(SQLText);
+                    
                 }
                 catch (Exception ex)
                 {
@@ -311,7 +316,7 @@ namespace DNA.Tools
                 connection.Open();
                 using (OleDbCommand Command = connection.CreateCommand())
                 {
-                    Command.CommandText = "Select JZZMJ,YDZMJ,GDZCYJ,GSRKSS2014,DSRKSS2014,ZYYSR2014,JZRJZB,TZQDZB,SSCCZB,ZYYSL,SFGSQY,DKBH from GYYD";
+                    Command.CommandText = "Select JZZMJ,YDZMJ,GDZCYJ,GSRKSS2014,DSRKSS2014,ZYYSR2014,JZRJZB,TZQDZB,SSCCZB,ZYYSL,SFGSQY,DKBH,LJGDZCTZ from GYYD";
                     var reader = Command.ExecuteReader();
                     while (reader.Read())
                     {
@@ -328,7 +333,8 @@ namespace DNA.Tools
                             SSCCZB = double.Parse(reader[8].ToString()),
                             ZYYSL = double.Parse(reader[9].ToString()),
                             SFGSQY = reader[10].ToString() == "是" ? true : false,
-                            DKBH=reader[11].ToString()
+                            DKBH=reader[11].ToString(),
+                            LJGDZCTZ=double.Parse(reader[12].ToString())
                         });
                     }
                 }

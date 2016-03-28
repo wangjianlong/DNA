@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DNA", "DNA\DNA.csproj", "{367D58A7-A304-4665-BDD6-6CFDB1107441}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DNA.Winform", "DNA.Winform\DNA.Winform.csproj", "{061DBEB4-5DF8-438C-8E24-F3F619068135}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DNA.Tools", "DNA.Tools\DNA.Tools.csproj", "{B7942D7E-7346-4DC2-A57C-908F72789480}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "DNASetup", "DNASetup\DNASetup.vdproj", "{D8086CA0-FED7-441A-B3B3-60207302BE79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,8 @@ Global
 		{B7942D7E-7346-4DC2-A57C-908F72789480}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7942D7E-7346-4DC2-A57C-908F72789480}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7942D7E-7346-4DC2-A57C-908F72789480}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8086CA0-FED7-441A-B3B3-60207302BE79}.Debug|Any CPU.ActiveCfg = Debug
+		{D8086CA0-FED7-441A-B3B3-60207302BE79}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

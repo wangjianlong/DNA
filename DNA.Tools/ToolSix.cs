@@ -10,6 +10,13 @@ namespace DNA.Tools
 {
     public class ToolSix:ToolType,ITool
     {
+        public static string CurrentName
+        {
+            get
+            {
+                return "表6工业用地（已建成）利用潜力行业汇总表.xls";
+            }
+        }
         public Dictionary<int, PotentialFive> TypeDict { get; set; }
         public PotentialFive SSum { get; set; }
         public ToolSix(string mdbFilePath)
@@ -18,7 +25,7 @@ namespace DNA.Tools
             SheetName = "表6";
             StartRow = 4;
             StartCell = 3;
-            StartRow2 = 66;
+            StartRow2 = 74;
             TypeDict = new Dictionary<int, PotentialFive>();
             SSum = new PotentialFive()
             {
@@ -93,6 +100,11 @@ namespace DNA.Tools
             WriteBase(SSum.Up, Sheet, StartRow2, StartCell);
             WriteBase(SSum.Down, Sheet, StartRow2 + 1, StartCell);
 
+        }
+
+        public string GetCurrentName()
+        {
+            return CurrentName;
         }
     }
 }

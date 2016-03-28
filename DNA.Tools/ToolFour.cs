@@ -7,6 +7,13 @@ namespace DNA.Tools
 {
     public class ToolFour:ToolPurpose,ITool
     {
+        public static string CurrentName
+        {
+            get
+            {
+                return "表4原工业用地（以改变用途）区域汇总表.xls";
+            }
+        }
         public List<TDSJYTJG> List { get; set; }
         public Dictionary<string, ChangePurpose> Dict { get; set; }
         public ChangePurpose Sum { get; set; }
@@ -72,6 +79,7 @@ namespace DNA.Tools
         public List<TDSJYTJG> GetData()
         {
             var list = new List<TDSJYTJG>();
+            string sjyt = string.Empty;
             using (OleDbConnection connection = new OleDbConnection(ConnectionString))
             {
                 connection.Open();
@@ -81,10 +89,15 @@ namespace DNA.Tools
                     var reader = Command.ExecuteReader();
                     while (reader.Read())
                     {
+                        sjyt = reader[1].ToString();
+                        if (sjyt == "061" || sjyt == "063")
+                        {
+                            continue;
+                        }
                         list.Add(new TDSJYTJG()
                         {
                             DKBH = reader[0].ToString(),
-                            SJYT = reader[1].ToString(),
+                            SJYT = sjyt,
                             Area = double.Parse(reader[2].ToString())
                         });
                     }
@@ -103,6 +116,10 @@ namespace DNA.Tools
                 Sum = Sum + val;
             }
             WriteBase(Sum, Sheet, StartRow2, StartCell);
+        }
+        public string GetCurrentName()
+        {
+            return CurrentName;
         }
     }
 }

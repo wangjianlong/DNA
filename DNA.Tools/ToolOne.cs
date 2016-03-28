@@ -10,6 +10,13 @@ namespace DNA.Tools
 {
     public class ToolOne : ToolRegion, ITool
     {
+        public static string CurrentName
+        {
+            get
+            {
+                return "表1工业用地（已建成）区域汇总表.xls";
+            }
+        }
         /// <summary>
         /// 根据区域
         /// </summary>
@@ -33,7 +40,7 @@ namespace DNA.Tools
                 Down = new DataBase()
             };
             StartRow = 4;
-            StartRow2 = 22;
+            StartRow2 = 46;
             StartCell = 3;
             ValCount = 25;
             TempView2 = "TEMPVIEW2";
@@ -87,7 +94,7 @@ namespace DNA.Tools
                     }
                     else
                     {
-                        str = string.Format("from GYYD_YDDW where CYPTMC Like '%{0}%' AND TDSYQK='1' AND SFGSQY='{1}",terrace, val);
+                        str = string.Format("from GYYD_YDDW where CYPTMC Like '%{0}%' AND TDSYQK='1' AND SFGSQY='{1}'",terrace, val);
                         //SQLText = string.Format("Select SUM(PZYDMJ),SUM(YDZMJ),SUM(WJPZYDMJ),SUM(JZZMJ),SUM(JZZDMJ),SUM(WPZJZMJ),SUM(WPZJZZDMJ),SUM(TDDJMJ),SUM(DYMJ),SUM(CZQYSL),SUM(SFGXQY),SUM(CYRS),SUM(LJGDZCTZ),SUM(YDL2012),SUM(YDL2013),SUM(YDL2014),SUM(GSRKSS2012),SUM(GSRKSS2013),SUM(GSRKSS2014),SUM(DSRKSS2012),SUM(DSRKSS2013),SUM(DSRKSS2014),SUM(ZYYSR2012),SUM(ZYYSR2013),SUM(ZYYSR2014) from GYYD where CYPTMC Like '%{0}%' AND TDSYQK='1' AND SFGSQY='{1}'", terrace, val);
                     }
                    
@@ -200,8 +207,12 @@ namespace DNA.Tools
                 WriteBase(one.Up, Sheet, StartRow2++, StartCell);
                 WriteBase(one.Down, Sheet, StartRow2++, StartCell);
             }
-            WriteBase(TerraceSum.Up, Sheet, 32, StartCell);
-            WriteBase(TerraceSum.Down, Sheet, 33, StartCell);
+            WriteBase(TerraceSum.Up, Sheet, 86, StartCell);
+            WriteBase(TerraceSum.Down, Sheet, 87, StartCell);
+        }
+        public string GetCurrentName()
+        {
+            return CurrentName;
         }
 
 

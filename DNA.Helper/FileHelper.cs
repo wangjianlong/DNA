@@ -10,7 +10,7 @@ namespace DNA.Helper
 {
     public static class FileHelper
     {
-        private static string PathBase = "../../Sources/";
+        private static string PathBase = "Sources/";
         public static string OpenFolder()
         {
             string Folder = string.Empty;
@@ -32,6 +32,16 @@ namespace DNA.Helper
                 FilePath = saveFileDialog.FileName;
             }
             return FilePath;
+        }
+        public static string SaveFolder()
+        {
+            string fileFolder = string.Empty;
+            FolderBrowserDialog folder = new FolderBrowserDialog();
+            if (folder.ShowDialog() == DialogResult.OK)
+            {
+                fileFolder = folder.SelectedPath;
+            }
+            return fileFolder;
         }
 
         public static string OperFile(string Title, string Filter)
